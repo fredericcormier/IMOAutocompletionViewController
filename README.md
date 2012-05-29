@@ -1,4 +1,4 @@
-IMOAutocompletionViewController
-===============================
+IMOControls
+===========
 
-Autocompletion view controller
+IMOControls
