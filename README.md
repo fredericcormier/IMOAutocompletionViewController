@@ -4,8 +4,8 @@
 
 
  
-<center>Suggestions appear in a UITableView underneath the UITextField  
-<center>
+Suggestions appear in a UITableView underneath the UITextField  
+
 
 
 <center>
@@ -18,15 +18,15 @@
 ##How to use:
 
 ####Your calling controller should conform to these protocols  
-
+```objective-c
 	@interface MyCallingController : UIViewController <IMOAutocompletionViewDataSouce, IMOAutocompletionViewDelegate>
 	
 	//Whatever...	
 
 	@end
-
+```
 ####Then call the IMOAutocompletionViewController like this
-
+```objective-c
 	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
     [acvc setItem:@"Stratocaster"];
     [acvc setItemLabel:@"New Product:"];
@@ -38,7 +38,7 @@
     [[self navigationController] presentModalViewController:navController animated:YES];
     [acvc release];
     [navController release];
-
+```
 * pass the default string to the UITextfield   
 * set the textfield caption label
 * set yourself as  datasource and delegate for the controller
@@ -52,16 +52,17 @@
 ####Being the delegate and the datasource you will need to implement those 2 methods
 
 provide a list of possible completions
-
+```objective-c
 	- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)asViewController 
 	{
     	return myListOfPossibleCompletionWords;
     }
 
-
+```
 And intercept the controller completion word  
-
+```objective-c
 	- (void)IMOAutocompletionViewControllerReturnedCompletion:(NSString *)completion 
 	{
     	[self setTheItem:completion];
     }
+```
