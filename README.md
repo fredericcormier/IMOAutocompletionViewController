@@ -18,13 +18,13 @@
 ##How to use:
 
 ####Your calling controller should conform to these protocols  
-
+```objective-c
 	@interface MyCallingController : UIViewController <IMOAutocompletionViewDataSouce, IMOAutocompletionViewDelegate>
 	
 	//Whatever...	
 
 	@end
-
+```
 ####Then call the IMOAutocompletionViewController like this
 
 	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
