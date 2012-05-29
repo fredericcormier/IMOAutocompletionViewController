@@ -49,7 +49,7 @@
 
 
 
-####As a delegate and datasource you will need to implement those 2 methods
+####Being the delegate and the datasource you will need to implement those 2 methods
 
 provide a list of possible completions
 
