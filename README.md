@@ -19,16 +19,16 @@ Suggestions appear in a UITableView underneath the UITextField
 
 ####Then call the IMOAutocompletionViewController like this
 
-	IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
-    [asvc setItem:@"Stratocaster"];
-    [asvc setItemLabel:@"New Product:"];
-    [asvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
-    [asvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
-    [asvc setBackgroundImageName:@"sandpaperthin.png"];
+	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
+    [acvc setItem:@"Stratocaster"];
+    [acvc setItemLabel:@"New Product:"];
+    [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
+    [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
+    [acvc setBackgroundImageName:@"sandpaperthin.png"];
     
- 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asvc];
+ 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:acvc];
     [[self navigationController] presentModalViewController:navController animated:YES];
-    [asvc release];
+    [acvc release];
     [navController release];
 
 * pass the default string to the UITextfield   
