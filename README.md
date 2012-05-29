@@ -26,7 +26,7 @@
 	@end
 ```
 ####Then call the IMOAutocompletionViewController like this
-
+```objective-c
 	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
     [acvc setItem:@"Stratocaster"];
     [acvc setItemLabel:@"New Product:"];
@@ -38,7 +38,7 @@
     [[self navigationController] presentModalViewController:navController animated:YES];
     [acvc release];
     [navController release];
-
+```
 * pass the default string to the UITextfield   
 * set the textfield caption label
 * set yourself as  datasource and delegate for the controller
