@@ -52,16 +52,17 @@
 ####As a delegate and datasource you will need to implement those 2 methods
 
 provide a list of possible completions
-
+```objective-c
 	- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)asViewController 
 	{
     	return myListOfPossibleCompletionWords;
     }
 
-
+```
 And intercept the controller completion word  
-
+```objective-c
 	- (void)IMOAutocompletionViewControllerReturnedCompletion:(NSString *)completion 
 	{
     	[self setTheItem:completion];
     }
+```
