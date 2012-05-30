@@ -59,11 +59,11 @@ provide a list of possible completions
     }
 
 ```
-And intercept the controller completion word  
+And intercept back the controller completion word  
 ```objective-c
 	- (void)IMOAutocompletionViewControllerReturnedCompletion:(NSString *)completion 
 	{
-    	[self setTheItem:completion];
+    	[self setTheThingThatNeedsCompletion:completion];
     }
 ```
 
