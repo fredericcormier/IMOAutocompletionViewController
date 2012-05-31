@@ -70,21 +70,19 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField resignFirstResponder];
-/*    IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc]
+    IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
                                              textFieldString:[self theItem] 
-                                             backgroundImageName:nil];*/
-    IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc] init ];
-    
-  
-    [asvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
-    [asvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
+                                             backgroundImageName:nil];
+     
+    [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
+    [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
   
     
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asvc];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:acvc];
     [[self navigationController] presentModalViewController:navController animated:YES];
-    [asvc release];
+    [acvc release];
     [navController release];
 }
 
