@@ -22,9 +22,9 @@ const float IMOCellSizeMagnitude = - 10.0;
     if (self) {
         cellField_ = [[UILabel alloc] initWithFrame:CGRectZero];
         [cellField_ setBackgroundColor:[UIColor clearColor]];
-        [cellField_ setFont:[UIFont boldSystemFontOfSize:12.0]];
+        [cellField_ setFont:[UIFont fontWithName:@"HelveticaNeue" size:16.0]];
         [cellField_ setTextAlignment:UITextAlignmentLeft];
-        
+        [cellField_ setTextColor:[UIColor colorWithRed:0.164 green:0.170 blue:0.174 alpha:1.000]];
         [[self contentView] addSubview:cellField_];
         [cellField_ release];
         
