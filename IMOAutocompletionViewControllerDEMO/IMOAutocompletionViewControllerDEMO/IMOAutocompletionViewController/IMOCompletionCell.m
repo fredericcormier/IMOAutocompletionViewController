@@ -8,8 +8,11 @@
 
 #import "IMOCompletionCell.h"
 
+
+
 @implementation IMOCompletionCell
 
+const float IMOCellSizeMagnitude = - 10.0;
 
 @synthesize cellField = cellField_;
 
@@ -36,13 +39,15 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    const float kLineWidth = 1.0;
-    UIColor *greyish = UIColorFromRGB(0xe8e4e3);
-    UIColor *creamy = UIColorFromRGB(0xecdbc1);
+    const float kLineWidth = 3.0;
+
+    UIColor *topLineColor = [UIColor whiteColor];
+    UIColor *bottomLineColor = UIColorFromRGB(0xe1e1e1);
+    UIColor *backgroundColor = UIColorFromRGB(0xf2f2f2);
     
-    CGColorRef backGroundColorRef = [[UIColor whiteColor] CGColor];
-    CGColorRef bottomSeparatorColorRef = [creamy CGColor];
-    CGColorRef topSeparatorColorRef = [greyish CGColor];
+    CGColorRef backGroundColorRef = [backgroundColor CGColor];
+    CGColorRef bottomSeparatorColorRef = [bottomLineColor CGColor];
+    CGColorRef topSeparatorColorRef = [topLineColor CGColor];
     
     
     rect = [[self contentView] bounds];
@@ -56,14 +61,7 @@
     CGContextAddLineToPoint(context, 0, rect.size.height);
     CGContextClosePath(context);
     CGContextFillPath(context);
-    //Bottom Separator
-    CGContextSetStrokeColorWithColor(context, bottomSeparatorColorRef);
-    CGContextSetLineWidth(context, kLineWidth);
-    CGContextSetLineCap(context, kCGLineCapSquare);
-    CGContextMoveToPoint(context, 0.0, rect.size.height);
-    CGContextAddLineToPoint(context, rect.size.width, rect.size.height);
-    CGContextStrokePath(context);
-    // Top Separator
+        // Top Separator
     CGContextSetStrokeColorWithColor(context, topSeparatorColorRef);
     CGContextSetLineWidth(context, kLineWidth);
     CGContextSetLineCap(context, kCGLineCapSquare);
@@ -71,6 +69,13 @@
     CGContextAddLineToPoint(context, rect.size.width, 0);
     CGContextStrokePath(context);
     
+    //Bottom Separator
+    CGContextSetStrokeColorWithColor(context, bottomSeparatorColorRef);
+    CGContextSetLineWidth(context, kLineWidth);
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    CGContextMoveToPoint(context, 0.0, rect.size.height + IMOCellSizeMagnitude);
+    CGContextAddLineToPoint(context, rect.size.width, rect.size.height + IMOCellSizeMagnitude);
+    CGContextStrokePath(context);    
 }
 
 

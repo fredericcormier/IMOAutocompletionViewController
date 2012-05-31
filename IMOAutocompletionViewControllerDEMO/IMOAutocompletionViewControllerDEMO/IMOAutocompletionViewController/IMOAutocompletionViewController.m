@@ -183,7 +183,10 @@
 #pragma mark - TableView delegate and data source -
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 34.0;
+    // Cell size default is 44.0.
+    // This will return a size of 34.0
+    // The custom cell needs to know the - 10.0 difference
+    return 44.0 + IMOCellSizeMagnitude;
 }
 
 
