@@ -144,7 +144,8 @@
     [self bannerView ].layer.shadowColor=[[UIColor lightGrayColor] CGColor];
     [self bannerView ].layer.shadowRadius = 2;
     [self bannerView ].layer.shadowOpacity = 1.0;
-    [[self bannerView ].layer setShouldRasterize:YES];
+    // Setting the frasterize to yes blurs the whole banner - text included
+    [[self bannerView ].layer setShouldRasterize:NO];
 }
 
 
