@@ -73,7 +73,7 @@
     IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
                                              textFieldString:[self theItem] 
-                                             backgroundImageName:nil];
+                                             backgroundImageName:@"sandpaperthin.png"];
      
     [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];

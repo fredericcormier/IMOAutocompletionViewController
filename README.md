@@ -17,7 +17,7 @@ Suggestions appear in a UITableView underneath the UITextField
 
 ##How to use:
 
-####Your calling controller should conform to these protocols  
+####Your calling controller should implement these 2 protocols  
 ```objective-c
 	@interface MyCallingController : UIViewController <IMOAutocompletionViewDataSouce, IMOAutocompletionViewDelegate>
 	
@@ -27,22 +27,29 @@ Suggestions appear in a UITableView underneath the UITextField
 ```
 ####Then call the IMOAutocompletionViewController like this
 ```objective-c
-	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil]; 
-    [acvc setItem:@"Stratocaster"];
-    [acvc setItemLabel:@"New Product:"];
+	 IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
+                                             initWithLabelString:@"Label:" 
+                                             textFieldString:[self theItem] 
+                                             backgroundImageName:@"sandpaperthin.png"];
+                                             
     [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
-    [acvc setBackgroundImageName:@"sandpaperthin.png"];
+
     
  	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:acvc];
     [[self navigationController] presentModalViewController:navController animated:YES];
     [acvc release];
     [navController release];
 ```
-* pass the default string to the UITextfield   
-* set the textfield caption label
-* set yourself as  datasource and delegate for the controller
+Initializer arguments:
+* labelString is the textfield caption label
+* textFieldString is to populate the UITextfield 
 * pass a backgroundimage (optional)  
+
+Other initializer are overriden and call the designated initializer with default arguments (nil)
+* set yourself as  datasource and delegate for the controller
+
+
 
 ### ***A navigation controller is required since the cancel button is the*** `navigationItem rightBarButtonItem`   
 
@@ -51,7 +58,7 @@ Suggestions appear in a UITableView underneath the UITextField
 
 ####Being the delegate and the datasource you will need to implement those 2 methods
 
-provide a list of possible completions
+ 1 - provide a list of possible completions
 ```objective-c
 	- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)asViewController 
 	{
@@ -59,7 +66,7 @@ provide a list of possible completions
     }
 
 ```
-And intercept back the controller completion word  
+2 -  intercept back the controller completion word  
 ```objective-c
 	- (void)IMOAutocompletionViewControllerReturnedCompletion:(NSString *)completion 
 	{

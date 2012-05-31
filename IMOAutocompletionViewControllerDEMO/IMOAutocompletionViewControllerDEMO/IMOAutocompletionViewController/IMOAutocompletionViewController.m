@@ -23,6 +23,7 @@
 
 @property (nonatomic, retain) NSString *textFieldString;
 @property (nonatomic, retain) NSString *labelString;
+@property (nonatomic, retain) NSString *backgroundImageName;
 
 
 
@@ -46,8 +47,6 @@
 @synthesize source = source_;
 @synthesize dataSource =  dataSource_;
 @synthesize delegate = delegate_;
-//@synthesize item = item_;
-//@synthesize itemLabel = itemLabel_;
 @synthesize backgroundImageName = backgroundImageName_;
 
 @synthesize textFieldString =  textFieldString_;
@@ -90,10 +89,7 @@
     [[self tableView] setDataSource:self];
     [[self tableView] setBackgroundColor:[UIColor clearColor]];    
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
     [[self valueField] setDelegate:self];
-    
-    
 }
 
 
@@ -154,13 +150,9 @@
     [valueField_ release];
     [label_ release];
     [tableView_ release];
-    
     [completions_ release];
     [source_ release];
-    //    [item_ release];
-    //    [itemLabel_ release];
     [backgroundImageName_ release];    
-    
     [textFieldString_ release];
     [labelString_ release];
     [super dealloc];
@@ -189,7 +181,6 @@
 
 //TODO: if bread -> should return "bread" and "slice bread"
 - (void)textFieldDidChange {
-    //NSLog(@"%s, %s", __FILE__, __FUNCTION__);
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]) {
         [self setSource:[(id <IMOAutocompletionViewDataSouce>)[self dataSource] sourceForAutoCompletionTextField:self]]; 
         
@@ -200,9 +191,7 @@
                 [tempCompletion addObject:word];
             }
         }
-        [self setCompletions:tempCompletion];
-        //NSLog(@"%@",[self completions]);
-        
+        [self setCompletions:tempCompletion];        
         [tempCompletion release];
         [[self tableView] reloadData];
     }
