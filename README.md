@@ -10,7 +10,7 @@ Suggestions appear in a UITableView underneath the UITextField
 
 <center>
 ![screenshot]  
-(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOACBackground.png?raw=true)
+(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
 </center>
 
 
