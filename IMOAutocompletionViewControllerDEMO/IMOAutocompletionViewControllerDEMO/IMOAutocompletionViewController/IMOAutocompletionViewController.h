@@ -23,13 +23,17 @@
 
 @end
 
-@interface IMOAutocompletionViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface IMOAutocompletionViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSString *item;
-@property (nonatomic, retain) NSString *itemLabel;
+//@property (nonatomic, retain) NSString *item;
+//@property (nonatomic, retain) NSString *itemLabel;
 @property (nonatomic, retain) NSString *backgroundImageName;
 
 @property (assign, nonatomic) id <IMOAutocompletionViewDataSouce> dataSource;
 @property (assign, nonatomic) id <IMOAutocompletionViewDelegate> delegate;
 
+
+- (id)initWithLabelString:(NSString *)lstring
+          textFieldString:(NSString *)tfstring
+      backgroundImageName:(NSString *) bgImageName;
 @end

@@ -70,13 +70,16 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField resignFirstResponder];
-    IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc] initWithNibName:nil bundle:nil];
+/*    IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc]
+                                             initWithLabelString:@"Label:" 
+                                             textFieldString:[self theItem] 
+                                             backgroundImageName:nil];*/
+    IMOAutocompletionViewController *asvc = [[IMOAutocompletionViewController alloc] init ];
     
-    [asvc setItem:[self theItem]];
-    [asvc setItemLabel:@"New Product:"];
+  
     [asvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
     [asvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
-    [asvc setBackgroundImageName:@"sandpaperthin.png"];
+  
     
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:asvc];

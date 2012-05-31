@@ -21,10 +21,14 @@
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 
 
+@property (nonatomic, retain) NSString *textFieldString;
+@property (nonatomic, retain) NSString *labelString;
+
+
 
 /*  It's always on
-    Could be off when there is no row in the tableView
-    And on when the table view shows (like in mail app email address */
+ Could be off when there is no row in the tableView
+ and on when the table view shows (like in mail app email address) */
 - (void)showBannerViewShadow:(BOOL)show;
 
 - (void)controllerCancelled;
@@ -42,31 +46,54 @@
 @synthesize source = source_;
 @synthesize dataSource =  dataSource_;
 @synthesize delegate = delegate_;
-@synthesize item = item_;
-@synthesize itemLabel = itemLabel_;
+//@synthesize item = item_;
+//@synthesize itemLabel = itemLabel_;
 @synthesize backgroundImageName = backgroundImageName_;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        completions_ = [[NSArray alloc] init];
-        source_ = [[NSArray alloc] init ];        
-    }
-    return self;
+@synthesize textFieldString =  textFieldString_;
+@synthesize labelString = labelString_;
+
+
+- (id)init {
+    return  self = [self initWithNibName:nil bundle:nil];
 }
 
 
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    return self = [self initWithLabelString:@""
+                            textFieldString:@"" 
+                        backgroundImageName:nil];
+    
+}
+
+
+/* DESIGNATED INITIALIZER */
+
+- (id)initWithLabelString:(NSString *)lstring
+          textFieldString:(NSString *)tfstring
+      backgroundImageName:(NSString *) bgImageName {
+    
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        completions_            = [[NSArray alloc] init];
+        source_                 = [[NSArray alloc] init ];        
+        textFieldString_        = [tfstring retain];
+        labelString_            = [lstring retain];
+        backgroundImageName_    = [bgImageName retain];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[self tableView] setDelegate:self];
     [[self tableView] setDataSource:self];
-    [[self tableView] setBackgroundColor:[UIColor clearColor]];
-//    [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"sandpaperthin.png"]]];
-    
+    [[self tableView] setBackgroundColor:[UIColor clearColor]];    
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-   
+    [[self valueField] setDelegate:self];
+    
+    
 }
 
 
@@ -84,8 +111,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[self valueField] addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
-    [[self valueField] setText:[self item]];
-    [[self label] setText:[self itemLabel]];
+    [[self valueField] setText:[self textFieldString]];
+    [[self label] setText:[self labelString]];
     
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                   target:self
@@ -130,9 +157,12 @@
     
     [completions_ release];
     [source_ release];
-    [item_ release];
-    [itemLabel_ release];
+    //    [item_ release];
+    //    [itemLabel_ release];
     [backgroundImageName_ release];    
+    
+    [textFieldString_ release];
+    [labelString_ release];
     [super dealloc];
 }
 
@@ -226,10 +256,22 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     IMOCompletionCell *selectedCell = (IMOCompletionCell *)[tableView cellForRowAtIndexPath:indexPath];
-        if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerReturnedCompletion:)]) {
+    if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerReturnedCompletion:)]) {
         [[self delegate] IMOAutocompletionViewControllerReturnedCompletion:[[selectedCell cellField] text]];
     }    
     [self dismissModalViewControllerAnimated:YES];
 }
 
+
+
+#pragma mark - Textfield delegate -
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([[self delegate]respondsToSelector:@selector(IMOAutocompletionViewControllerReturnedCompletion:)]) {
+        [[self delegate] IMOAutocompletionViewControllerReturnedCompletion:[[self valueField] text]];
+    }
+    [self resignFirstResponder];
+    [self dismissModalViewControllerAnimated:YES];
+    return YES;
+}
 @end
