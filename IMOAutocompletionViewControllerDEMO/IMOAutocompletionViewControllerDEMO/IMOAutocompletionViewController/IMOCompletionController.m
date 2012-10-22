@@ -11,8 +11,6 @@
  */
 #import "IMOCompletionController.h"
 
-const int MAX_WORD_LENGTH = 30;
-
 @interface IMOCompletionController () {
     NSString *oldWord;
 }
@@ -40,17 +38,15 @@ const int MAX_WORD_LENGTH = 30;
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord{
     if (self = [super init]) {
         source_ =   [[words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];            
+            return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];
         }] retain];
-
-        ranges_ = [[NSMutableArray alloc] initWithCapacity:MAX_WORD_LENGTH];
-
-        for (int i = 0; i < MAX_WORD_LENGTH; i++) {
-            [ranges_ addObject:[NSNull null]];
-        }
+        
+        ranges_ = [[NSMutableArray alloc] init];
+        
         
         NSRange allWordsRange = NSMakeRange(0, [source_ count] - 1 );
-        [ranges_ replaceObjectAtIndex:0 withObject:[NSValue valueWithRange:allWordsRange]];
+        [ranges_ addObject:[NSValue valueWithRange:allWordsRange]];
+        
         if ([anInitialWord isEqualToString:@""] == NO) {
             [self calculateAllRangesForWord:anInitialWord];
             oldWord = [anInitialWord retain];
@@ -85,11 +81,13 @@ const int MAX_WORD_LENGTH = 30;
 
 
 - (void)resetRanges {
-    for (int i = 0; i < MAX_WORD_LENGTH; i++) {
-        [ranges_ replaceObjectAtIndex:i withObject:[NSNull null]];
-    }
+    [ranges_ release];
+    ranges_ = [[NSMutableArray alloc] init];
+    
+    
     NSRange allWordsRange = NSMakeRange(0, [source_ count] - 1 );
-    [ranges_ replaceObjectAtIndex:0 withObject:[NSValue valueWithRange:allWordsRange]];
+    [ranges_ addObject:[NSValue valueWithRange:allWordsRange]];
+    
 }
 
 
@@ -128,7 +126,7 @@ const int MAX_WORD_LENGTH = 30;
         }
     }
     NSRange newRange = NSMakeRange(start, counter);
-    [[self ranges] replaceObjectAtIndex:length withObject:[NSValue valueWithRange:newRange]];
+    [[self ranges] addObject:[NSValue valueWithRange:newRange]];
 }
 
 
@@ -145,7 +143,7 @@ const int MAX_WORD_LENGTH = 30;
     
     // Deleting a char at the end - the ranges have been already computed - just need to clean up at length + 1
     else if ((deviation == -1) && ([oldWord hasPrefix:newWord] || [newWord isEqualToString:@""])) {
-        [[self ranges] replaceObjectAtIndex:length + 1 withObject:[NSNull null]];
+        [[self ranges] removeObjectAtIndex: length + 1 ];
     }
     // deleting a char inside the word
     else if ((deviation == 1 || deviation == -1)
