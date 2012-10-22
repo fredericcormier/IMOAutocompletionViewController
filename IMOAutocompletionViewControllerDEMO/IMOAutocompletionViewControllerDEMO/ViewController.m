@@ -36,7 +36,7 @@
     [[self view] addSubview:[self tf]]; 
     [tf_ release];
     
-    theItem_ = @"test";
+    theItem_ = @"";
    
 }
 
@@ -77,6 +77,7 @@
      
     [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
+    [acvc setTitle:@"Demo"];
   
     
     

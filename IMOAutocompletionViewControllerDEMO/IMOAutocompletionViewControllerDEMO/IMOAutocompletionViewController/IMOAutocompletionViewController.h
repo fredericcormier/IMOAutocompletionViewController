@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
+//#define COMPLETION_DEBUG
+
 @class IMOAutocompletionViewController;
 
 
@@ -23,13 +26,16 @@
 
 @end
 
+
 @interface IMOAutocompletionViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (assign, nonatomic) id <IMOAutocompletionViewDataSouce> dataSource;
 @property (assign, nonatomic) id <IMOAutocompletionViewDelegate> delegate;
 
 
+
 - (id)initWithLabelString:(NSString *)lstring
           textFieldString:(NSString *)tfstring
       backgroundImageName:(NSString *) bgImageName;
 @end
+
