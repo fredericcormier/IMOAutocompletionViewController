@@ -39,7 +39,10 @@ const int MAX_WORD_LENGTH = 30;
 
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord{
     if (self = [super init]) {
-        source_ = [words retain];
+        source_ =   [[words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];            
+        }] retain];
+
         ranges_ = [[NSMutableArray alloc] initWithCapacity:MAX_WORD_LENGTH];
 
         for (int i = 0; i < MAX_WORD_LENGTH; i++) {
