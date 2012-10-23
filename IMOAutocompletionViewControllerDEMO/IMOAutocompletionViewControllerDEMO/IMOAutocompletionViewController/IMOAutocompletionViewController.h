@@ -13,9 +13,9 @@
 @class IMOAutocompletionViewController;
 
 
-@protocol IMOAutocompletionViewDataSouce <NSObject>
+@protocol IMOAutocompletionViewDataSource <NSObject>
 
-- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)asViewController;
+- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)autocompletionViewController;
 
 @end
 
@@ -29,7 +29,7 @@
 
 @interface IMOAutocompletionViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (assign, nonatomic) id <IMOAutocompletionViewDataSouce> dataSource;
+@property (assign, nonatomic) id <IMOAutocompletionViewDataSource> dataSource;
 @property (assign, nonatomic) id <IMOAutocompletionViewDelegate> delegate;
 
 

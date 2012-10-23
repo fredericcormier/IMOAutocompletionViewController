@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "IMOAutocompletionViewController.h"
 
-@interface ViewController : UIViewController <UITextFieldDelegate, IMOAutocompletionViewDataSouce, IMOAutocompletionViewDelegate>
+@interface ViewController : UIViewController <UITextFieldDelegate, IMOAutocompletionViewDataSource, IMOAutocompletionViewDelegate>
 
 @end

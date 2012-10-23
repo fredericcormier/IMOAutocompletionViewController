@@ -11,8 +11,6 @@
 @interface IMOCompletionController : NSObject
 
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord;
-
-
 - (NSArray *)completions;
 - (void)findWordStartingWith:(NSString *)word;
 

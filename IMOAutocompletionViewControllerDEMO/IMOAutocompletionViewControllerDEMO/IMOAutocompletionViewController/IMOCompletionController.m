@@ -120,7 +120,7 @@
                 counter++;
             }
         }else {// does not match
-            if (running == YES) { //there was a match perviously so this the end
+            if (running == YES) { //there was a match perviously so, this the end.
                 break;
             }// otherwise - no match yet - continue
         }

@@ -116,7 +116,7 @@
     
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]){
         // get the source and sort it
-        NSArray *sourceArray = [(id <IMOAutocompletionViewDataSouce>)[self dataSource] sourceForAutoCompletionTextField:self];
+        NSArray *sourceArray = [(id <IMOAutocompletionViewDataSource>)[self dataSource] sourceForAutoCompletionTextField:self];
               completionController_ = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
     }
     

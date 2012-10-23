@@ -75,7 +75,7 @@
                                              textFieldString:[self theItem] 
                                              backgroundImageName:@"sandpaperthin.png"];
      
-    [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
+    [acvc setDataSource:(id<IMOAutocompletionViewDataSource>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
     [acvc setTitle:@"Demo"];
   
@@ -88,9 +88,9 @@
 }
 
 
-#pragma  mark -IMOAutoSuggestController delegate and dataSource
+#pragma  mark - IMOAutocompletionViewController delegate and dataSource
 
-- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)asViewController {
+- (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)autocompletionViewController {
     return [[IMOWords sharedWords] tokens];
     
 }
