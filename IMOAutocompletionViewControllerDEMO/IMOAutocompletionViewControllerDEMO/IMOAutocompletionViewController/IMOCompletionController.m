@@ -145,14 +145,14 @@
     else if ((deviation == -1) && ([oldWord hasPrefix:newWord] || [newWord isEqualToString:@""])) {
         [[self ranges] removeObjectAtIndex: length + 1 ];
     }
-    // deleting a char inside the word
+    // deleting or adding a char inside the word
     else if ((deviation == 1 || deviation == -1)
              && ([newWord characterAtIndex:0] == [oldWord characterAtIndex:0])
              && ([newWord characterAtIndex:[newWord length] -1] == [oldWord characterAtIndex:[oldWord length] -1])) {
         [self resetRanges];
         [self calculateAllRangesForWord:newWord];
     }
-    // deleting several chars
+    // deleting or adding several chars inside the word
     else if ((deviation > 1) || (deviation < -1)){
         [self resetRanges];
         [self calculateAllRangesForWord:newWord];

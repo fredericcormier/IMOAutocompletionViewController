@@ -31,7 +31,7 @@
 
 
 
-/*  It's always on
+/* Shadow It's always on
  Could be off when there is no row in the tableView
  and on when the table view appears(like in mail app email address) */
 - (void)showBannerViewShadow:(BOOL)show;
@@ -115,7 +115,7 @@
     [super viewWillAppear:animated];
     
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]){
-        // get the source and sort it
+        // get the source 
         NSArray *sourceArray = [(id <IMOAutocompletionViewDataSource>)[self dataSource] sourceForAutoCompletionTextField:self];
               completionController_ = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
     }
