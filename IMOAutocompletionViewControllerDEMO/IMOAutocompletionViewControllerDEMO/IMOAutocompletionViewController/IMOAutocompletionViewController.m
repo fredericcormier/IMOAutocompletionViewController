@@ -196,7 +196,10 @@
 
 
 - (void)controllerCancelled {
-    [self dismissModalViewControllerAnimated:YES];
+    if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerFinished)]) {
+        [[self delegate] IMOAutocompletionViewControllerFinished];
+    }
+    //[self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -262,7 +265,10 @@
     if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerReturnedCompletion:)]) {
         [[self delegate] IMOAutocompletionViewControllerReturnedCompletion:[[selectedCell cellField] text]];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerFinished)]) {
+        [[self delegate] IMOAutocompletionViewControllerFinished];
+    }
+    //[self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -274,7 +280,10 @@
         [[self delegate] IMOAutocompletionViewControllerReturnedCompletion:[[self valueField] text]];
     }
     [self resignFirstResponder];
-    [self dismissModalViewControllerAnimated:YES];
+    if ([[self delegate] respondsToSelector:@selector(IMOAutocompletionViewControllerFinished)]) {
+        [[self delegate] IMOAutocompletionViewControllerFinished];
+    }
+    //[self dismissModalViewControllerAnimated:YES];
     return YES;
 }
 @end
