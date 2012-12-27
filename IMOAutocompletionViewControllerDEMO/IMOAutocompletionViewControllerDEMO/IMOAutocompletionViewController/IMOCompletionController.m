@@ -38,8 +38,8 @@
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord{
     if (self = [super init]) {
         source_ =   [[words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];
-        }] retain];
+                    return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];
+                    }] retain];
         
         ranges_ = [[NSMutableArray alloc] init];
         
@@ -111,7 +111,7 @@
     int counter = 0;
     BOOL running = NO;
     for (int i = range.location; i < range.location + range.length; i++) {
-        if ([[[self source] objectAtIndex:i] hasPrefix:word]) { // does match
+        if ([[[[self source] objectAtIndex:i] lowercaseString] hasPrefix:[word lowercaseString]]) { // does match
             if (running == NO) { // time to start tracking
                 start = i;
                 counter++;
@@ -137,12 +137,12 @@
     int deviation = [newWord length] -[oldWord length];
     
     //Adding a char at the end
-    if ((deviation == 1) && ([newWord hasPrefix:oldWord] || [oldWord isEqualToString:@""] )) {
+    if ((deviation == 1) && ([[newWord lowercaseString] hasPrefix:[oldWord lowercaseString]] || [oldWord isEqualToString:@""] )) {
         [self calculateRangeForLengthOfWord:newWord];
     }
     
     // Deleting a char at the end - the ranges have been already computed - just need to clean up at length + 1
-    else if ((deviation == -1) && ([oldWord hasPrefix:newWord] || [newWord isEqualToString:@""])) {
+    else if ((deviation == -1) && ([[oldWord lowercaseString] hasPrefix:[newWord lowercaseString]] || [newWord isEqualToString:@""])) {
         [[self ranges] removeObjectAtIndex: length + 1 ];
     }
     // deleting or adding a char inside the word

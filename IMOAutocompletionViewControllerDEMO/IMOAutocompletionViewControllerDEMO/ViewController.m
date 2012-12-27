@@ -92,7 +92,7 @@
 
 - (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)autocompletionViewController {
 //    return [[IMOWords sharedWords] tokens];
-    return @[@"xorldi", @"hello", @"foo", @"bar", @"baz", @"world"];
+    return @[@"xorldi", @"hello", @"foo", @"Bar", @"baz", @"World"];
     
 }
 

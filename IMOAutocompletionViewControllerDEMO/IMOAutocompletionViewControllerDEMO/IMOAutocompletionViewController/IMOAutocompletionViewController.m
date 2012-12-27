@@ -203,7 +203,7 @@
 
 
 - (void)textFieldDidChange {
-    [[self completionController] findWordStartingWith:[[[self valueField] text] lowercaseString]];
+    [[self completionController] findWordStartingWith:[[self valueField] text]];
     [[self tableView] reloadData];
 #ifdef COMPLETION_DEBUG
     NSString *completionCount = [NSString stringWithFormat:@"%d", [[self tableView] numberOfRowsInSection:0]] ;
@@ -251,7 +251,8 @@
     if (nil == cell) {
         cell = [[[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:completionCell] autorelease];
     }
-    [[cell cellField] setText:[[[self completionController] completions] objectAtIndex:[indexPath row]]];
+    NSString *thisCompletion = [[[[self completionController] completions] objectAtIndex:[indexPath row]] lowercaseString];
+    [[cell cellField] setText:thisCompletion];
     return cell;
 }
 
