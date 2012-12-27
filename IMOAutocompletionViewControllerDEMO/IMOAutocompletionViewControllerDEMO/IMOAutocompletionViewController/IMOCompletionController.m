@@ -44,7 +44,7 @@
         ranges_ = [[NSMutableArray alloc] init];
         
         
-        NSRange allWordsRange = NSMakeRange(0, [source_ count] - 1 );
+        NSRange allWordsRange = NSMakeRange(0, [source_ count]);
         [ranges_ addObject:[NSValue valueWithRange:allWordsRange]];
         
         if ([anInitialWord isEqualToString:@""] == NO) {

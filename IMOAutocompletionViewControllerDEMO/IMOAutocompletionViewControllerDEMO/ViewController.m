@@ -91,7 +91,8 @@
 #pragma  mark - IMOAutocompletionViewController delegate and dataSource
 
 - (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)autocompletionViewController {
-    return [[IMOWords sharedWords] tokens];
+//    return [[IMOWords sharedWords] tokens];
+    return @[@"xorldi", @"hello", @"foo", @"bar", @"baz", @"world"];
     
 }
 
