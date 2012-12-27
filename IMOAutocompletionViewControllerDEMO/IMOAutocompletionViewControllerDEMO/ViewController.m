@@ -36,7 +36,7 @@
     [[self view] addSubview:[self tf]]; 
     [tf_ release];
     
-    theItem_ = @"";
+    theItem_ = @"fgqfYYL";
    
 }
 
@@ -91,8 +91,8 @@
 #pragma  mark - IMOAutocompletionViewController delegate and dataSource
 
 - (NSArray *)sourceForAutoCompletionTextField:(IMOAutocompletionViewController *)autocompletionViewController {
-//    return [[IMOWords sharedWords] tokens];
-    return @[@"xorldi", @"hello", @"foo", @"Bar", @"baz", @"World"];
+    return [[IMOWords sharedWords] tokens];
+//    return @[@"xorldi", @"hello", @"foo", @"Bar", @"baz", @"World"];
     
 }
 
