@@ -120,7 +120,7 @@
                 counter++;
             }
         }else {// does not match
-            if (running == YES) { //there was a match perviously so, this the end.
+            if (running == YES) { //there was a match previously so, this the end.
                 break;
             }// otherwise - no match yet - continue
         }
@@ -133,6 +133,13 @@
 
 
 - (void)findWordStartingWith:(NSString *)newWord {
+    // if working directly with the IMOCompletionController (you know you shouldn't),
+    // there might be situations where oldWord might be nil, so ...
+    if (oldWord == nil) {
+        oldWord = @"";
+    }
+
+    
     int length = [newWord length];
     int deviation = [newWord length] -[oldWord length];
     
