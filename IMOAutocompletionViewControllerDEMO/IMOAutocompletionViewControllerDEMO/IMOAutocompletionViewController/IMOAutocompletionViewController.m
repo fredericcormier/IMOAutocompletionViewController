@@ -11,6 +11,12 @@
 #import "IMOCompletionController.h"
 #import <QuartzCore/QuartzCore.h>
 
+
+NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSeparatorColor";
+NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
+NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroundColor";
+
+
 @interface IMOAutocompletionViewController ()
 
 
@@ -20,6 +26,8 @@
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 @property (retain, nonatomic) IBOutlet UILabel *completionCountField;
 @property (retain, nonatomic) IBOutlet UILabel *totalCompletionField;
+
+@property (nonatomic, retain) NSArray *cellColorsArray;
 
 
 @property (retain, nonatomic) IMOCompletionController *completionController;
@@ -54,7 +62,7 @@
 @synthesize labelString = labelString_;
 @synthesize completionCountField = completionCountField_;
 @synthesize totalCompletionField = totalCompletionField_;
-
+@synthesize cellColorsArray = cellColorsArray_;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -63,10 +71,20 @@
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    return self = [self initWithLabelString:@""
-                            textFieldString:@""
-                        backgroundImageName:nil];
+    return [self initWithLabelString:@""
+                     textFieldString:@""
+                 backgroundImageName:nil
+                          cellColors:nil];
     
+}
+
+- (id)initWithLabelString:(NSString *)lstring
+          textFieldString:(NSString *)tfstring
+      backgroundImageName:(NSString *) bgImageName{
+    return [self initWithLabelString:lstring
+                     textFieldString:tfstring
+                 backgroundImageName:
+            bgImageName cellColors:nil];
 }
 
 
@@ -74,7 +92,8 @@
 
 - (id)initWithLabelString:(NSString *)lstring
           textFieldString:(NSString *)tfstring
-      backgroundImageName:(NSString *) bgImageName {
+      backgroundImageName:(NSString *) bgImageName
+               cellColors:(NSDictionary *)cellColors{
     
     if (self = [super initWithNibName:nil bundle:nil]) {
         textFieldString_        = [tfstring retain];
@@ -82,6 +101,15 @@
         backgroundImageName_    = [bgImageName retain];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
+        
+        if (cellColors != nil) {
+            cellColorsArray_ = [[NSArray alloc] initWithObjects:
+                                cellColors[IMOCompletionCellTopSeparatorColor],
+                                cellColors[IMOCompletionCellBottomSeparatorColor],
+                                cellColors[IMOCompletionCellBackgroundColor], nil];
+        }else{
+            cellColorsArray_ = nil;
+        }
     }
     return self;
 }
@@ -184,6 +212,7 @@
     [labelString_ release];
     [completionCountField_ release];
     [totalCompletionField_ release];
+    [cellColorsArray_ release];
     [super dealloc];
 }
 
@@ -195,7 +224,7 @@
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
     CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
-   
+    
     CGRect originalTableViewRect = [[self tableView] frame];
     originalTableViewRect.size.height -= keyboardHeight;
     [[self tableView] setFrame:originalTableViewRect];
@@ -269,7 +298,14 @@
     
     IMOCompletionCell *cell = [tableView dequeueReusableCellWithIdentifier:completionCell];
     if (nil == cell) {
-        cell = [[[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:completionCell] autorelease];
+        if ([self cellColorsArray]) { // call with custom colors
+            cell = [[[IMOCompletionCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                             reuseIdentifier:completionCell
+                                                  cellColors:[self cellColorsArray]]autorelease];
+        }else { // call with default colors
+            cell = [[[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1
+                                            reuseIdentifier:completionCell] autorelease];
+        }
     }
     NSString *thisCompletion = [[[[self completionController] completions] objectAtIndex:[indexPath row]] lowercaseString];
     [[cell cellField] setText:thisCompletion];

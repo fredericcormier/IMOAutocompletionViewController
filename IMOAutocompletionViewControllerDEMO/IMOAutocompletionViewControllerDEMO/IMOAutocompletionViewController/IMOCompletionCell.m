@@ -8,16 +8,31 @@
 
 #import "IMOCompletionCell.h"
 
+@interface IMOCompletionCell()
 
+@property(nonatomic, retain)UIColor *topSeparatorColor;
+@property(nonatomic, retain)UIColor *bottomSeparatorColor;
+@property(nonatomic, retain)UIColor *cellBackgroundColor;
+
+@end
 
 @implementation IMOCompletionCell
 
 const float IMOCellSizeMagnitude = - 10.0;
 
 @synthesize cellField = cellField_;
+@synthesize topSeparatorColor = topSeparatorColor_;
+@synthesize bottomSeparatorColor = bottomSeparatorColor_;
+@synthesize cellBackgroundColor = cellBackgroundColor_;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    return [self initWithStyle:style reuseIdentifier:reuseIdentifier cellColors:nil];
+}
+
+
+//designated initializer
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier cellColors:(NSArray *)colors {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         cellField_ = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -28,9 +43,27 @@ const float IMOCellSizeMagnitude = - 10.0;
         [[self contentView] addSubview:cellField_];
         [cellField_ release];
         
+        if (colors) {
+            topSeparatorColor_ = colors[0];
+            bottomSeparatorColor_ = colors[1];
+            cellBackgroundColor_ = colors[2];
+        }else{//use default values
+            topSeparatorColor_ = [[UIColor whiteColor] retain];
+            bottomSeparatorColor_ = [UIColorFromRGB(0xe1e1e1) retain];
+            cellBackgroundColor_ = [UIColorFromRGB(0xf2f2f2) retain];
+        }
     }
     return self;
 }
+
+- (void)dealloc {
+    [topSeparatorColor_ release];
+    [bottomSeparatorColor_ release];
+    [cellBackgroundColor_ release];
+    [super dealloc];
+}
+
+
 
 - (void)layoutSubviews {
     CGRect cellFieldRect = CGRectMake(10.0, 10.0, 300., 20.0);
@@ -40,14 +73,10 @@ const float IMOCellSizeMagnitude = - 10.0;
 - (void)drawRect:(CGRect)rect {
     
     const float kLineWidth = 3.0;
-
-    UIColor *topLineColor = [UIColor whiteColor];
-    UIColor *bottomLineColor = UIColorFromRGB(0xe1e1e1);
-    UIColor *backgroundColor = UIColorFromRGB(0xf2f2f2);
     
-    CGColorRef backGroundColorRef = [backgroundColor CGColor];
-    CGColorRef bottomSeparatorColorRef = [bottomLineColor CGColor];
-    CGColorRef topSeparatorColorRef = [topLineColor CGColor];
+    CGColorRef backGroundColorRef = [[self cellBackgroundColor] CGColor];
+    CGColorRef bottomSeparatorColorRef = [[self bottomSeparatorColor] CGColor];
+    CGColorRef topSeparatorColorRef = [[self topSeparatorColor] CGColor];
     
     
     rect = [[self contentView] bounds];

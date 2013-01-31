@@ -70,10 +70,17 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField resignFirstResponder];
+    
+    NSDictionary *cellColors = @{
+                                 IMOCompletionCellTopSeparatorColor: [UIColor whiteColor],
+                                 IMOCompletionCellBottomSeparatorColor: [UIColor colorWithRed:0.885 green:0.788 blue:0.767 alpha:1.000],
+                                 IMOCompletionCellBackgroundColor: [UIColor colorWithRed:0.961 green:0.914 blue:0.864 alpha:1.000]};
+    
     IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
                                              textFieldString:[self theItem] 
-                                             backgroundImageName:@"sandpaperthin.png"];
+                                             backgroundImageName:@"sandpaperthin.png"
+                                             cellColors:cellColors];
      
     [acvc setDataSource:(id<IMOAutocompletionViewDataSource>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
