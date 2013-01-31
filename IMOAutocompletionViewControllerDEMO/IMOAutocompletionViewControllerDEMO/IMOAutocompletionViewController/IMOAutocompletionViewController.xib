@@ -151,18 +151,18 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">2</int>
-								<object class="IBUIFontDescription" key="IBUIFontDescription" id="361888418">
+								<object class="IBUIFontDescription" key="IBUIFontDescription" id="277879946">
 									<int key="type">1</int>
 									<double key="pointSize">11</double>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="915873915">
+								<object class="NSFont" key="IBUIFont" id="213832992">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">11</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
-							<object class="IBUILabel" id="399242335">
+							<object class="IBUILabel" id="752572255">
 								<reference key="NSNextResponder" ref="620055917"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{277, 17}, {38, 21}}</string>
@@ -182,8 +182,8 @@
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">0</int>
 								<int key="IBUITextAlignment">2</int>
-								<reference key="IBUIFontDescription" ref="361888418"/>
-								<reference key="IBUIFont" ref="915873915"/>
+								<reference key="IBUIFontDescription" ref="277879946"/>
+								<reference key="IBUIFont" ref="213832992"/>
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 							</object>
 						</array>
@@ -265,7 +265,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">totalCompletionField</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="399242335"/>
+						<reference key="destination" ref="752572255"/>
 					</object>
 					<int key="connectionID">16</int>
 				</object>
@@ -304,7 +304,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="652145899"/>
 							<reference ref="918473337"/>
-							<reference ref="399242335"/>
+							<reference ref="752572255"/>
 							<reference ref="123252639"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
@@ -326,7 +326,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">15</int>
-						<reference key="object" ref="399242335"/>
+						<reference key="object" ref="752572255"/>
 						<reference key="parent" ref="620055917"/>
 					</object>
 					<object class="IBObjectRecord">

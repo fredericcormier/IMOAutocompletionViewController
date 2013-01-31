@@ -34,7 +34,7 @@
  Could be off when there is no row in the tableView
  and on when the table view appears(like in mail app email address) */
 - (void)showBannerViewShadow:(BOOL)show;
-
+- (void)resizeTableView:(NSNotification *)notification;
 - (void)controllerCancelled;
 
 @end
@@ -80,6 +80,8 @@
         textFieldString_        = [tfstring retain];
         labelString_            = [lstring retain];
         backgroundImageName_    = [bgImageName retain];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
     }
     return self;
 }
@@ -148,7 +150,6 @@
     
 #endif
     
-    
 }
 
 
@@ -170,6 +171,7 @@
 
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [bannerView_ release];
     [valueField_ release];
     [label_ release];
@@ -183,6 +185,20 @@
     [completionCountField_ release];
     [totalCompletionField_ release];
     [super dealloc];
+}
+
+
+
+- (void)resizeTableView:(NSNotification *)notification {
+    NSDictionary* keyboardInfo = [notification userInfo];
+    
+    NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
+   
+    CGRect originalTableViewRect = [[self tableView] frame];
+    originalTableViewRect.size.height -= keyboardHeight;
+    [[self tableView] setFrame:originalTableViewRect];
 }
 
 
