@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-//#define COMPLETION_DEBUG
+#define COMPLETION_DEBUG    1
 
 @class IMOAutocompletionViewController;
 

@@ -14,13 +14,12 @@
 @interface IMOAutocompletionViewController ()
 
 
-@property(nonatomic, retain)NSArray *source;
-
 @property (retain, nonatomic) IBOutlet UIView *bannerView;
 @property (retain, nonatomic) IBOutlet UITextField *valueField;
 @property (retain, nonatomic) IBOutlet UILabel *label;
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 @property (retain, nonatomic) IBOutlet UILabel *completionCountField;
+@property (retain, nonatomic) IBOutlet UILabel *totalCompletionField;
 
 
 @property (retain, nonatomic) IMOCompletionController *completionController;
@@ -47,7 +46,6 @@
 @synthesize valueField = valueField_;
 @synthesize label = label_;
 @synthesize tableView = tableView_;
-@synthesize source = source_;
 @synthesize dataSource =  dataSource_;
 @synthesize delegate = delegate_;
 @synthesize backgroundImageName = backgroundImageName_;
@@ -55,6 +53,7 @@
 @synthesize textFieldString =  textFieldString_;
 @synthesize labelString = labelString_;
 @synthesize completionCountField = completionCountField_;
+@synthesize totalCompletionField = totalCompletionField_;
 
 
 - (id)init {
@@ -104,20 +103,23 @@
     [self setValueField:nil];
     [self setLabel:nil];
     [self setTableView:nil];
-    [self setSource:nil];
     [self setCompletionCountField:nil];
+    [self setTotalCompletionField:nil];
     [super viewDidUnload];
 }
 
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    int totalCompletionCount = 0;
+    
     [super viewWillAppear:animated];
     
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]){
-        // get the source 
+        // get the source
         NSArray *sourceArray = [(id <IMOAutocompletionViewDataSource>)[self dataSource] sourceForAutoCompletionTextField:self];
-              completionController_ = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
+        completionController_ = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
+        totalCompletionCount = [sourceArray count];
     }
     
     
@@ -139,9 +141,11 @@
         [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[self backgroundImageName]]]];
     }
     [[self tableView] reloadData];
-#ifdef COMPLETION_DEBUG
+#if COMPLETION_DEBUG
     NSString *completionCount = [NSString stringWithFormat:@"%d", [[self tableView] numberOfRowsInSection:0]] ;
     [[self completionCountField] setText:completionCount];
+    [[self totalCompletionField] setText:[NSString stringWithFormat:@"%d", totalCompletionCount]];
+    
 #endif
     
     
@@ -170,7 +174,6 @@
     [valueField_ release];
     [label_ release];
     [tableView_ release];
-    [source_ release];
     if ([self completionController]) {
         [completionController_ release];
     }
@@ -178,6 +181,7 @@
     [textFieldString_ release];
     [labelString_ release];
     [completionCountField_ release];
+    [totalCompletionField_ release];
     [super dealloc];
 }
 
