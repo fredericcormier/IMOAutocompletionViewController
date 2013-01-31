@@ -44,9 +44,9 @@ const float IMOCellSizeMagnitude = - 10.0;
         [cellField_ release];
         
         if (colors) {
-            topSeparatorColor_ = colors[0];
-            bottomSeparatorColor_ = colors[1];
-            cellBackgroundColor_ = colors[2];
+            topSeparatorColor_ = [colors[0] retain];
+            bottomSeparatorColor_ = [colors[1] retain];
+            cellBackgroundColor_ = [colors[2] retain];
         }else{//use default values
             topSeparatorColor_ = [[UIColor whiteColor] retain];
             bottomSeparatorColor_ = [UIColorFromRGB(0xe1e1e1) retain];
