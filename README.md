@@ -27,10 +27,11 @@ Suggestions appear in a UITableView underneath the UITextField
 ```
 ####Then call the IMOAutocompletionViewController like this
 ```objective-c
-	 IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
+	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
                                              textFieldString:[self theItem] 
-                                             backgroundImageName:@"sandpaperthin.png"];
+                                             backgroundImageName:@"sandpaperthin.png"
+                                             cellColors:nil];
                                              
     [acvc setDataSource:(id<IMOAutocompletionViewDataSouce>)self];
     [acvc setDelegate:(id<IMOAutocompletionViewDelegate>)self];
@@ -44,9 +45,11 @@ Suggestions appear in a UITableView underneath the UITextField
 Initializer arguments:
 * labelString is the textfield caption label
 * textFieldString is to populate the UITextfield 
-* pass a backgroundimage (optional)  
+* pass a background image (pass nil for default background) 
+* cell color dictionary (pass nil for default colors) 
 
-Other initializer are overriden and call the designated initializer with default arguments (nil)
+Other initializer are overriden and call the designated initializer with default arguments (nil).  
+Old version's designated initializer calls the new version's one.
 * set yourself as  datasource and delegate for the controller
 
 
@@ -56,7 +59,7 @@ Other initializer are overriden and call the designated initializer with default
 
 
 
-####Being the delegate and the datasource you will need to implement those 2 methods
+####You then need need to implement those 2 methods
 
  1 - provide a list of possible completions
 ```objective-c
@@ -74,8 +77,15 @@ Other initializer are overriden and call the designated initializer with default
     }
 ```
 
+###If you want to provide your own cell colors, just pass a dictionary like this to the cellColors argument
+```objective-c 
+	 NSDictionary *cellColors = @{
+                IMOCompletionCellTopSeparatorColor: [UIColor whiteColor],
+             IMOCompletionCellBottomSeparatorColor: [UIColor colorWithRed:0.885 green:0.788 blue:0.767 alpha:1.000],
+                  IMOCompletionCellBackgroundColor: [UIColor colorWithRed:0.961 green:0.914 blue:0.864 alpha:1.000]};
+    
 
-
+```
 #LICENSE 
 ----
 Copyright (C) 2013 Frederic Cormier
