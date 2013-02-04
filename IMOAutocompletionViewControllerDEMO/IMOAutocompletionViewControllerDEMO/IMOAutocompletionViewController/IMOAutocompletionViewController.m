@@ -254,7 +254,7 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 - (void)textFieldDidChange {
     [[self completionController] findWordStartingWith:[[self valueField] text]];
     [[self tableView] reloadData];
-#ifdef COMPLETION_DEBUG
+#if COMPLETION_DEBUG
     NSString *completionCount = [NSString stringWithFormat:@"%d", [[self tableView] numberOfRowsInSection:0]] ;
     [[self completionCountField] setText:completionCount];
 #endif

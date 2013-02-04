@@ -43,6 +43,7 @@
 						<string key="NSFrame">{{0, 40}, {328, 420}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="856425956">
 							<int key="NSColorSpace">3</int>
@@ -116,8 +117,10 @@
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">17</float>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+									<int key="IBUIReturnKeyType">9</int>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
+								<int key="IBUIClearButtonMode">1</int>
 								<object class="IBUIFontDescription" key="IBUIFontDescription">
 									<string key="name">HelveticaNeue</string>
 									<string key="family">Helvetica Neue</string>
@@ -136,7 +139,7 @@
 								<string key="NSFrame">{{277, 6}, {38, 14}}</string>
 								<reference key="NSSuperview" ref="620055917"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="248019673"/>
+								<reference key="NSNextKeyView" ref="752572255"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -168,6 +171,7 @@
 								<string key="NSFrame">{{277, 17}, {38, 21}}</string>
 								<reference key="NSSuperview" ref="620055917"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="248019673"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>

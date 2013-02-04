@@ -73,8 +73,8 @@
     
     NSDictionary *cellColors = @{
                                  IMOCompletionCellTopSeparatorColor: [UIColor whiteColor],
-                                 IMOCompletionCellBottomSeparatorColor: [UIColor colorWithRed:0.885 green:0.788 blue:0.767 alpha:1.000],
-                                 IMOCompletionCellBackgroundColor: [UIColor colorWithRed:0.961 green:0.914 blue:0.864 alpha:1.000]};
+                                 IMOCompletionCellBottomSeparatorColor: [UIColor colorWithRed:0.869 green:0.875 blue:0.885 alpha:1.000],
+                                 IMOCompletionCellBackgroundColor: [UIColor colorWithRed:0.947 green:0.941 blue:0.969 alpha:1.000]};
     
     IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
