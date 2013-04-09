@@ -16,6 +16,7 @@ NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSepa
 NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
 NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroundColor";
 
+static const CGFloat NavigationBarHeight = 44.f;
 
 @interface IMOAutocompletionViewController ()
 
@@ -28,8 +29,6 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 @property (retain, nonatomic) IBOutlet UILabel *totalCompletionField;
 
 @property (nonatomic, retain) NSArray *cellColorsArray;
-
-
 @property (retain, nonatomic) IMOCompletionController *completionController;
 
 @property (nonatomic, retain) NSString *textFieldString;
@@ -40,16 +39,17 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 
 /* Shadow It's always on
  Could be off when there is no row in the tableView
- and on when the table view appears(like in mail app email address) */
+ and on when the table view appears(like in mail app email addresses) */
 - (void)showBannerViewShadow:(BOOL)show;
 - (void)resizeTableView:(NSNotification *)notification;
 - (void)controllerCancelled;
-
+- (CGFloat)screenHeight;
 @end
 
 
 
 @implementation IMOAutocompletionViewController
+
 @synthesize bannerView = bannerView_;
 @synthesize valueField = valueField_;
 @synthesize label = label_;
@@ -110,40 +110,114 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
         }else{
             cellColorsArray_ = nil;
         }
+        
+        
+        
+        [self setView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, [self screenHeight])]];
+
+        
+        tableView_ = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
+        [[self view] addSubview:tableView_];
+        
+        
+        bannerView_ = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+        [bannerView_ setBackgroundColor:[UIColor whiteColor]];
+        [[self view] addSubview:bannerView_];
+        
+        valueField_ = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
+        [valueField_ setClearButtonMode:UITextFieldViewModeWhileEditing];
+        [[self bannerView] addSubview:valueField_];
+        
+        label_ = [[UILabel alloc] initWithFrame:CGRectMake(4.f, 12.f, 65.f, 24.f)];
+        [label_ setTextAlignment:NSTextAlignmentRight];
+        [label_ setFont:[UIFont boldSystemFontOfSize:12.f]];
+        [label_ setTextColor:[UIColor grayColor]];
+        [[self view] addSubview:label_];
+        
+        completionCountField_ = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
+        [completionCountField_ setFont:[UIFont boldSystemFontOfSize:10.f]];
+        [completionCountField_ setTextAlignment:NSTextAlignmentRight];
+        [completionCountField_ setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
+        [[self view] addSubview:completionCountField_];
+        
+        totalCompletionField_ = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
+        [totalCompletionField_ setFont:[UIFont boldSystemFontOfSize:10.f]];
+        [totalCompletionField_ setTextAlignment:NSTextAlignmentRight];
+        [totalCompletionField_ setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
+        [[self view] addSubview:totalCompletionField_];
+        
+        
+        
     }
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [bannerView_ release];
+    [valueField_ release];
+    [label_ release];
+    [tableView_ release];
+    if ([self completionController]) {
+        [completionController_ release];
+    }
+    [backgroundImageName_ release];
+    [textFieldString_ release];
+    [labelString_ release];
+    [completionCountField_ release];
+    [totalCompletionField_ release];
+    [cellColorsArray_ release];
+    
+    [bannerView_ release];
+    [tableView_ release];
+    [valueField_ release];
+    [label_ release];
+    [completionCountField_ release];
+    [totalCompletionField_ release];
+    
+    [self setView:nil];
+    [super dealloc];
+}
 
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+//- (void)viewDidLoad {
+//    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
+//    [super viewDidLoad];
+//    [[self tableView] setDelegate:self];
+//    [[self tableView] setDataSource:self];
+//    [[self tableView] setBackgroundColor:[UIColor clearColor]];
+//    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    [[self valueField] setDelegate:self];
+//
+//}
+
+
+//
+//- (void)viewDidUnload {
+//    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
+//    [self setBannerView:nil];
+//    [self setValueField:nil];
+//    [self setLabel:nil];
+//    [self setTableView:nil];
+//    [self setCompletionCountField:nil];
+//    [self setTotalCompletionField:nil];
+//    [super viewDidUnload];
+//}
+//
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    int totalCompletionCount = 0;
+    
+    [super viewWillAppear:animated];
+    
     [[self tableView] setDelegate:self];
     [[self tableView] setDataSource:self];
     [[self tableView] setBackgroundColor:[UIColor clearColor]];
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [[self valueField] setDelegate:self];
     
-}
-
-
-
-- (void)viewDidUnload {
-    [self setBannerView:nil];
-    [self setValueField:nil];
-    [self setLabel:nil];
-    [self setTableView:nil];
-    [self setCompletionCountField:nil];
-    [self setTotalCompletionField:nil];
-    [super viewDidUnload];
-}
-
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    int totalCompletionCount = 0;
-    
-    [super viewWillAppear:animated];
     
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]){
         // get the source
@@ -171,11 +245,11 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
         [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[self backgroundImageName]]]];
     }
     [[self tableView] reloadData];
+    
 #if COMPLETION_DEBUG
     NSString *completionCount = [NSString stringWithFormat:@"%d", [[self tableView] numberOfRowsInSection:0]] ;
     [[self completionCountField] setText:completionCount];
     [[self totalCompletionField] setText:[NSString stringWithFormat:@"%d", totalCompletionCount]];
-    
 #endif
     
 }
@@ -198,23 +272,6 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 
 
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [bannerView_ release];
-    [valueField_ release];
-    [label_ release];
-    [tableView_ release];
-    if ([self completionController]) {
-        [completionController_ release];
-    }
-    [backgroundImageName_ release];
-    [textFieldString_ release];
-    [labelString_ release];
-    [completionCountField_ release];
-    [totalCompletionField_ release];
-    [cellColorsArray_ release];
-    [super dealloc];
-}
 
 
 
@@ -226,8 +283,20 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
     CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
     
     CGRect originalTableViewRect = [[self tableView] frame];
-    originalTableViewRect.size.height -= keyboardHeight;
+    originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.5f);
     [[self tableView] setFrame:originalTableViewRect];
+}
+
+
+#pragma mark -stuff
+
+
+-(CGFloat)screenHeight {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        return result.height;
+    }
+    return 0;
 }
 
 
@@ -235,7 +304,7 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 - (void)showBannerViewShadow:(BOOL)show {
     [self bannerView ].layer.masksToBounds = show ? NO : YES;
     [self bannerView ].layer.shadowOffset = CGSizeMake(0, 3);
-    [self bannerView ].layer.shadowColor=[[UIColor lightGrayColor] CGColor];
+    [self bannerView ].layer.shadowColor=[[UIColor colorWithWhite:0.546 alpha:0.870] CGColor];
     [self bannerView ].layer.shadowRadius = 2;
     [self bannerView ].layer.shadowOpacity = 1.0;
     // Setting the rasterize to yes blurs the whole banner - text included
@@ -245,7 +314,11 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 
 
 - (void)controllerCancelled {
-    [self dismissModalViewControllerAnimated:YES];
+    if ([[UIViewController class] respondsToSelector:@selector(dismissViewControllerAnimated:completion:)]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self dismissModalViewControllerAnimated:YES];
+    }
 }
 
 
@@ -254,6 +327,7 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 - (void)textFieldDidChange {
     [[self completionController] findWordStartingWith:[[self valueField] text]];
     [[self tableView] reloadData];
+    
 #if COMPLETION_DEBUG
     NSString *completionCount = [NSString stringWithFormat:@"%d", [[self tableView] numberOfRowsInSection:0]] ;
     [[self completionCountField] setText:completionCount];
@@ -279,7 +353,7 @@ NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroun
 }
 
 
-
+//???: Always show the banner shadow ?
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int rows = [[[self completionController] completions] count];
     if (rows == 0) {

@@ -16,7 +16,6 @@
 		6A117AB71575053900F3D9C6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A117AB61575053900F3D9C6 /* ViewController.m */; };
 		6A117ABA1575053900F3D9C6 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AB81575053900F3D9C6 /* ViewController.xib */; };
 		6A117ACA157505DC00F3D9C6 /* IMOAutocompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A117AC6157505DC00F3D9C6 /* IMOAutocompletionViewController.m */; };
-		6A117ACB157505DC00F3D9C6 /* IMOAutocompletionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AC7157505DC00F3D9C6 /* IMOAutocompletionViewController.xib */; };
 		6A117ACC157505DC00F3D9C6 /* IMOCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A117AC9157505DC00F3D9C6 /* IMOCompletionCell.m */; };
 		6A117AD2157505FC00F3D9C6 /* sandpaperthin.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AD0157505FC00F3D9C6 /* sandpaperthin.png */; };
 		6A117AD3157505FC00F3D9C6 /* sandpaperthin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AD1157505FC00F3D9C6 /* sandpaperthin@2x.png */; };
@@ -41,7 +40,6 @@
 		6A117AB91575053900F3D9C6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		6A117AC5157505DC00F3D9C6 /* IMOAutocompletionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMOAutocompletionViewController.h; sourceTree = "<group>"; };
 		6A117AC6157505DC00F3D9C6 /* IMOAutocompletionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMOAutocompletionViewController.m; sourceTree = "<group>"; };
-		6A117AC7157505DC00F3D9C6 /* IMOAutocompletionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IMOAutocompletionViewController.xib; sourceTree = "<group>"; };
 		6A117AC8157505DC00F3D9C6 /* IMOCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMOCompletionCell.h; sourceTree = "<group>"; };
 		6A117AC9157505DC00F3D9C6 /* IMOCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMOCompletionCell.m; sourceTree = "<group>"; };
 		6A117ACE157505F400F3D9C6 /* IMOWords.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMOWords.h; sourceTree = "<group>"; };
@@ -98,13 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				6A117AC4157505DC00F3D9C6 /* IMOAutocompletionViewController */,
-				6A117AB21575053900F3D9C6 /* AppDelegate.h */,
-				6A117AB31575053900F3D9C6 /* AppDelegate.m */,
-				6A117AB51575053900F3D9C6 /* ViewController.h */,
-				6A117AB61575053900F3D9C6 /* ViewController.m */,
-				6A117ACE157505F400F3D9C6 /* IMOWords.h */,
-				6A117ACF157505F400F3D9C6 /* IMOWords.m */,
-				6A117AB81575053900F3D9C6 /* ViewController.xib */,
+				6ADDEAEF170D7B3800E9BE19 /* IMOAutocompletionApp */,
 				6A117AD51575068400F3D9C6 /* graphics */,
 				6A117AAA1575053900F3D9C6 /* Supporting Files */,
 			);
@@ -131,7 +123,6 @@
 				6AD52411163009AC004304CF /* IMOCompletionController.m */,
 				6A117AC5157505DC00F3D9C6 /* IMOAutocompletionViewController.h */,
 				6A117AC6157505DC00F3D9C6 /* IMOAutocompletionViewController.m */,
-				6A117AC7157505DC00F3D9C6 /* IMOAutocompletionViewController.xib */,
 			);
 			path = IMOAutocompletionViewController;
 			sourceTree = "<group>";
@@ -144,6 +135,20 @@
 				6A117AD1157505FC00F3D9C6 /* sandpaperthin@2x.png */,
 			);
 			name = graphics;
+			sourceTree = "<group>";
+		};
+		6ADDEAEF170D7B3800E9BE19 /* IMOAutocompletionApp */ = {
+			isa = PBXGroup;
+			children = (
+				6A117AB21575053900F3D9C6 /* AppDelegate.h */,
+				6A117AB31575053900F3D9C6 /* AppDelegate.m */,
+				6A117AB51575053900F3D9C6 /* ViewController.h */,
+				6A117AB61575053900F3D9C6 /* ViewController.m */,
+				6A117ACE157505F400F3D9C6 /* IMOWords.h */,
+				6A117ACF157505F400F3D9C6 /* IMOWords.m */,
+				6A117AB81575053900F3D9C6 /* ViewController.xib */,
+			);
+			name = IMOAutocompletionApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,7 +204,6 @@
 			files = (
 				6A117AAE1575053900F3D9C6 /* InfoPlist.strings in Resources */,
 				6A117ABA1575053900F3D9C6 /* ViewController.xib in Resources */,
-				6A117ACB157505DC00F3D9C6 /* IMOAutocompletionViewController.xib in Resources */,
 				6A117AD2157505FC00F3D9C6 /* sandpaperthin.png in Resources */,
 				6A117AD3157505FC00F3D9C6 /* sandpaperthin@2x.png in Resources */,
 				6AEF41C116B825C600F93847 /* Default-568h@2x.png in Resources */,
@@ -302,6 +306,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Prefix.pch";
 				INFOPLIST_FILE = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -313,6 +318,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Prefix.pch";
 				INFOPLIST_FILE = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
