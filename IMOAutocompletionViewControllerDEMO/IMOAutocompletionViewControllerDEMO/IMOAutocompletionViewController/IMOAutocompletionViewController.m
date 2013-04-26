@@ -283,7 +283,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
     
     CGRect originalTableViewRect = [[self tableView] frame];
-    originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.5f);
+    originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
     [[self tableView] setFrame:originalTableViewRect];
 }
 
