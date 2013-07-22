@@ -33,8 +33,8 @@ extern NSString * const IMOCompletionCellBackgroundColor;
 
 @interface IMOAutocompletionViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (assign, nonatomic) id <IMOAutocompletionViewDataSource> dataSource;
-@property (assign, nonatomic) id <IMOAutocompletionViewDelegate> delegate;
+@property (weak, nonatomic) id <IMOAutocompletionViewDataSource> dataSource;
+@property (weak, nonatomic) id <IMOAutocompletionViewDelegate> delegate;
 
 
 - (id)initWithLabelString:(NSString *)lstring

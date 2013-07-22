@@ -10,9 +10,9 @@
 
 @interface IMOCompletionCell()
 
-@property(nonatomic, retain)UIColor *topSeparatorColor;
-@property(nonatomic, retain)UIColor *bottomSeparatorColor;
-@property(nonatomic, retain)UIColor *cellBackgroundColor;
+@property(nonatomic, strong)UIColor *topSeparatorColor;
+@property(nonatomic, strong)UIColor *bottomSeparatorColor;
+@property(nonatomic, strong)UIColor *cellBackgroundColor;
 
 @end
 
@@ -38,30 +38,23 @@ const float IMOCellSizeMagnitude = - 10.0;
         cellField_ = [[UILabel alloc] initWithFrame:CGRectZero];
         [cellField_ setBackgroundColor:[UIColor clearColor]];
         [cellField_ setFont:[UIFont fontWithName:@"HelveticaNeue" size:16.0]];
-        [cellField_ setTextAlignment:UITextAlignmentLeft];
+        [cellField_ setTextAlignment:NSTextAlignmentLeft];
         [cellField_ setTextColor:[UIColor colorWithRed:0.164 green:0.170 blue:0.174 alpha:1.000]];
         [[self contentView] addSubview:cellField_];
-        [cellField_ release];
         
         if (colors) {
-            topSeparatorColor_ = [colors[0] retain];
-            bottomSeparatorColor_ = [colors[1] retain];
-            cellBackgroundColor_ = [colors[2] retain];
+            topSeparatorColor_ = colors[0];
+            bottomSeparatorColor_ = colors[1];
+            cellBackgroundColor_ = colors[2];
         }else{//use default values
-            topSeparatorColor_ = [[UIColor whiteColor] retain];
-            bottomSeparatorColor_ = [UIColorFromRGB(0xe1e1e1) retain];
-            cellBackgroundColor_ = [UIColorFromRGB(0xf2f2f2) retain];
+            topSeparatorColor_ = [UIColor whiteColor];
+            bottomSeparatorColor_ = UIColorFromRGB(0xe1e1e1);
+            cellBackgroundColor_ = UIColorFromRGB(0xf2f2f2);
         }
     }
     return self;
 }
 
-- (void)dealloc {
-    [topSeparatorColor_ release];
-    [bottomSeparatorColor_ release];
-    [cellBackgroundColor_ release];
-    [super dealloc];
-}
 
 
 

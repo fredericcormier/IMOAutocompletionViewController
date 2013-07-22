@@ -29,7 +29,7 @@ extern const float  IMOCellSizeMagnitude;
 
 
 
-@property (nonatomic, retain) UILabel *cellField;
+@property (nonatomic, strong) UILabel *cellField;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

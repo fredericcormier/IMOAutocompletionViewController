@@ -15,8 +15,8 @@
     NSString *oldWord;
 }
 
-@property (nonatomic, retain) NSArray* source;
-@property (nonatomic, retain) NSMutableArray* ranges;
+@property (nonatomic, strong) NSArray* source;
+@property (nonatomic, strong) NSMutableArray* ranges;
 @property (nonatomic, assign) int rangePointer;
 
 - (void)calculateRangeForLengthOfWord:(NSString *)word;
@@ -37,9 +37,9 @@
 
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord{
     if (self = [super init]) {
-        source_ =   [[words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        source_ =   [words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
                     return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];
-                    }] retain];
+                    }];
         
         ranges_ = [[NSMutableArray alloc] init];
         
@@ -49,7 +49,7 @@
         
         if ([anInitialWord isEqualToString:@""] == NO) {
             [self calculateAllRangesForWord:anInitialWord];
-            oldWord = [anInitialWord retain];
+            oldWord = anInitialWord;
         }else{
             oldWord = @"";
             rangePointer_ = 0;
@@ -60,12 +60,6 @@
 
 
 
-- (void)dealloc {
-    [source_ release];
-    [ranges_ release];
-    [oldWord release];
-    [super dealloc];
-}
 
 
 - (NSArray *)completions {
@@ -73,7 +67,7 @@
     if ([self rangePointer] == 0) {
         return nil;
     }else{
-        NSRange currentSolution = [[[self ranges] objectAtIndex:[self rangePointer]] rangeValue];
+        NSRange currentSolution = [[self ranges][[self rangePointer]] rangeValue];
         return [[self source] subarrayWithRange:currentSolution];
     }
 }
@@ -81,7 +75,6 @@
 
 
 - (void)resetRanges {
-    [ranges_ release];
     ranges_ = [[NSMutableArray alloc] init];
     
     
@@ -106,12 +99,12 @@
 
 - (void)calculateRangeForLengthOfWord:(NSString *)word{
     int length = [word length];
-    NSRange range = [[[self ranges] objectAtIndex:length -1] rangeValue];
+    NSRange range = [[self ranges][length -1] rangeValue];
     int start = 0;
     int counter = 0;
     BOOL running = NO;
     for (int i = range.location; i < range.location + range.length; i++) {
-        if ([[[[self source] objectAtIndex:i] lowercaseString] hasPrefix:[word lowercaseString]]) { // does match
+        if ([[[self source][i] lowercaseString] hasPrefix:[word lowercaseString]]) { // does match
             if (running == NO) { // time to start tracking
                 start = i;
                 counter++;
@@ -165,8 +158,6 @@
         [self calculateAllRangesForWord:newWord];
     }
     [self setRangePointer:length];
-    [newWord retain];
-    [oldWord release];
     oldWord = newWord;
 }
 

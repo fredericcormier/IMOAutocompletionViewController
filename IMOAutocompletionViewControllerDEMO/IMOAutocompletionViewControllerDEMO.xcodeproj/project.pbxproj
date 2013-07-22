@@ -177,7 +177,7 @@
 		6A117A961575053800F3D9C6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "International MicrOondes";
 			};
 			buildConfigurationList = 6A117A991575053800F3D9C6 /* Build configuration list for PBXProject "IMOAutocompletionViewControllerDEMO" */;
@@ -253,8 +253,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -270,9 +271,12 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -281,8 +285,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -291,7 +296,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -303,6 +310,7 @@
 		6A117ABE1575053900F3D9C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Prefix.pch";
 				INFOPLIST_FILE = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Info.plist";
@@ -315,6 +323,7 @@
 		6A117ABF1575053900F3D9C6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Prefix.pch";
 				INFOPLIST_FILE = "IMOAutocompletionViewControllerDEMO/IMOAutocompletionViewControllerDEMO-Info.plist";

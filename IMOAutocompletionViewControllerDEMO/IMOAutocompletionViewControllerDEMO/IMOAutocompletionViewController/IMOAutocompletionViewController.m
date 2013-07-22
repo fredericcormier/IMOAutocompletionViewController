@@ -21,19 +21,19 @@ static const CGFloat NavigationBarHeight = 44.f;
 @interface IMOAutocompletionViewController ()
 
 
-@property (retain, nonatomic) IBOutlet UIView *bannerView;
-@property (retain, nonatomic) IBOutlet UITextField *valueField;
-@property (retain, nonatomic) IBOutlet UILabel *label;
-@property (retain, nonatomic) IBOutlet UITableView *tableView;
-@property (retain, nonatomic) IBOutlet UILabel *completionCountField;
-@property (retain, nonatomic) IBOutlet UILabel *totalCompletionField;
+@property (strong, nonatomic) IBOutlet UIView *bannerView;
+@property (strong, nonatomic) IBOutlet UITextField *valueField;
+@property (strong, nonatomic) IBOutlet UILabel *label;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UILabel *completionCountField;
+@property (strong, nonatomic) IBOutlet UILabel *totalCompletionField;
 
-@property (nonatomic, retain) NSArray *cellColorsArray;
-@property (retain, nonatomic) IMOCompletionController *completionController;
+@property (nonatomic, strong) NSArray *cellColorsArray;
+@property (strong, nonatomic) IMOCompletionController *completionController;
 
-@property (nonatomic, retain) NSString *textFieldString;
-@property (nonatomic, retain) NSString *labelString;
-@property (nonatomic, retain) NSString *backgroundImageName;
+@property (nonatomic, strong) NSString *textFieldString;
+@property (nonatomic, strong) NSString *labelString;
+@property (nonatomic, strong) NSString *backgroundImageName;
 
 
 
@@ -96,17 +96,16 @@ static const CGFloat NavigationBarHeight = 44.f;
                cellColors:(NSDictionary *)cellColors{
     
     if (self = [super initWithNibName:nil bundle:nil]) {
-        textFieldString_        = [tfstring retain];
-        labelString_            = [lstring retain];
-        backgroundImageName_    = [bgImageName retain];
+        textFieldString_        = tfstring;
+        labelString_            = lstring;
+        backgroundImageName_    = bgImageName;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
         
         if (cellColors != nil) {
-            cellColorsArray_ = [[NSArray alloc] initWithObjects:
-                                cellColors[IMOCompletionCellTopSeparatorColor],
+            cellColorsArray_ = @[cellColors[IMOCompletionCellTopSeparatorColor],
                                 cellColors[IMOCompletionCellBottomSeparatorColor],
-                                cellColors[IMOCompletionCellBackgroundColor], nil];
+                                cellColors[IMOCompletionCellBackgroundColor]];
         }else{
             cellColorsArray_ = nil;
         }
@@ -154,29 +153,11 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [bannerView_ release];
-    [valueField_ release];
-    [label_ release];
-    [tableView_ release];
     if ([self completionController]) {
-        [completionController_ release];
     }
-    [backgroundImageName_ release];
-    [textFieldString_ release];
-    [labelString_ release];
-    [completionCountField_ release];
-    [totalCompletionField_ release];
-    [cellColorsArray_ release];
     
-    [bannerView_ release];
-    [tableView_ release];
-    [valueField_ release];
-    [label_ release];
-    [completionCountField_ release];
-    [totalCompletionField_ release];
     
     [self setView:nil];
-    [super dealloc];
 }
 
 
@@ -236,7 +217,6 @@ static const CGFloat NavigationBarHeight = 44.f;
                                                                                   action:@selector(controllerCancelled)];
     
     [[self navigationItem] setRightBarButtonItem:cancelButton];
-    [cancelButton release];
     
     if (nil == [self backgroundImageName]) {
         [[self tableView] setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
@@ -373,15 +353,15 @@ static const CGFloat NavigationBarHeight = 44.f;
     IMOCompletionCell *cell = [tableView dequeueReusableCellWithIdentifier:completionCell];
     if (nil == cell) {
         if ([self cellColorsArray]) { // call with custom colors
-            cell = [[[IMOCompletionCell alloc] initWithStyle:UITableViewCellStyleValue1
+            cell = [[IMOCompletionCell alloc] initWithStyle:UITableViewCellStyleValue1
                                              reuseIdentifier:completionCell
-                                                  cellColors:[self cellColorsArray]]autorelease];
+                                                  cellColors:[self cellColorsArray]];
         }else { // call with default colors
-            cell = [[[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1
-                                            reuseIdentifier:completionCell] autorelease];
+            cell = [[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1
+                                            reuseIdentifier:completionCell];
         }
     }
-    NSString *thisCompletion = [[[[self completionController] completions] objectAtIndex:[indexPath row]] lowercaseString];
+    NSString *thisCompletion = [[[self completionController] completions][[indexPath row]] lowercaseString];
     [[cell cellField] setText:thisCompletion];
     return cell;
 }

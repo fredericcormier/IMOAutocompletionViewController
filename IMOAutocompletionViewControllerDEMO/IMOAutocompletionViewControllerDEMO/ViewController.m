@@ -14,8 +14,8 @@
 @interface ViewController ()
 
 
-@property(nonatomic,retain)UITextField *tf;
-@property(nonatomic,retain)NSString *theItem;
+@property(nonatomic,strong)UITextField *tf;
+@property(nonatomic,strong)NSString *theItem;
 
 @end
 
@@ -34,7 +34,6 @@
     [tf_ setDelegate:self];
     [tf_ setBorderStyle:UITextBorderStyleRoundedRect];
     [[self view] addSubview:[self tf]]; 
-    [tf_ release];
     
     theItem_ = @"fgqfYYL";
    
@@ -47,10 +46,6 @@
 }
 
 
-- (void)dealloc {
-    [theItem_ release];
-    [super dealloc];
-}
 
 
 
@@ -90,8 +85,6 @@
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:acvc];
     [[self navigationController] presentModalViewController:navController animated:YES];
-    [acvc release];
-    [navController release];
 }
 
 
