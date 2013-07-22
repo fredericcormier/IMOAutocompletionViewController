@@ -50,19 +50,6 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 @implementation IMOAutocompletionViewController
 
-@synthesize bannerView = bannerView_;
-@synthesize valueField = valueField_;
-@synthesize label = label_;
-@synthesize tableView = tableView_;
-@synthesize dataSource =  dataSource_;
-@synthesize delegate = delegate_;
-@synthesize backgroundImageName = backgroundImageName_;
-@synthesize completionController = completionController_;
-@synthesize textFieldString =  textFieldString_;
-@synthesize labelString = labelString_;
-@synthesize completionCountField = completionCountField_;
-@synthesize totalCompletionField = totalCompletionField_;
-@synthesize cellColorsArray = cellColorsArray_;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -96,18 +83,18 @@ static const CGFloat NavigationBarHeight = 44.f;
                cellColors:(NSDictionary *)cellColors{
     
     if (self = [super initWithNibName:nil bundle:nil]) {
-        textFieldString_        = tfstring;
-        labelString_            = lstring;
-        backgroundImageName_    = bgImageName;
+        _textFieldString        = tfstring;
+        _labelString            = lstring;
+        _backgroundImageName    = bgImageName;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
         
         if (cellColors != nil) {
-            cellColorsArray_ = @[cellColors[IMOCompletionCellTopSeparatorColor],
+            _cellColorsArray = @[cellColors[IMOCompletionCellTopSeparatorColor],
                                 cellColors[IMOCompletionCellBottomSeparatorColor],
                                 cellColors[IMOCompletionCellBackgroundColor]];
         }else{
-            cellColorsArray_ = nil;
+            _cellColorsArray = nil;
         }
         
         
@@ -115,35 +102,35 @@ static const CGFloat NavigationBarHeight = 44.f;
         [self setView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, [self screenHeight])]];
 
         
-        tableView_ = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
-        [[self view] addSubview:tableView_];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
+        [[self view] addSubview:_tableView];
         
         
-        bannerView_ = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
-        [bannerView_ setBackgroundColor:[UIColor whiteColor]];
-        [[self view] addSubview:bannerView_];
+        _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+        [_bannerView setBackgroundColor:[UIColor whiteColor]];
+        [[self view] addSubview:_bannerView];
         
-        valueField_ = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
-        [valueField_ setClearButtonMode:UITextFieldViewModeWhileEditing];
-        [[self bannerView] addSubview:valueField_];
+        _valueField = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
+        [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
+        [[self bannerView] addSubview:_valueField];
         
-        label_ = [[UILabel alloc] initWithFrame:CGRectMake(4.f, 12.f, 65.f, 24.f)];
-        [label_ setTextAlignment:NSTextAlignmentRight];
-        [label_ setFont:[UIFont boldSystemFontOfSize:12.f]];
-        [label_ setTextColor:[UIColor grayColor]];
-        [[self view] addSubview:label_];
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(4.f, 12.f, 65.f, 24.f)];
+        [_label setTextAlignment:NSTextAlignmentRight];
+        [_label setFont:[UIFont boldSystemFontOfSize:12.f]];
+        [_label setTextColor:[UIColor grayColor]];
+        [[self view] addSubview:_label];
         
-        completionCountField_ = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
-        [completionCountField_ setFont:[UIFont boldSystemFontOfSize:10.f]];
-        [completionCountField_ setTextAlignment:NSTextAlignmentRight];
-        [completionCountField_ setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
-        [[self view] addSubview:completionCountField_];
+        _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
+        [_completionCountField setFont:[UIFont boldSystemFontOfSize:10.f]];
+        [_completionCountField setTextAlignment:NSTextAlignmentRight];
+        [_completionCountField setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
+        [[self view] addSubview:_completionCountField];
         
-        totalCompletionField_ = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
-        [totalCompletionField_ setFont:[UIFont boldSystemFontOfSize:10.f]];
-        [totalCompletionField_ setTextAlignment:NSTextAlignmentRight];
-        [totalCompletionField_ setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
-        [[self view] addSubview:totalCompletionField_];
+        _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
+        [_totalCompletionField setFont:[UIFont boldSystemFontOfSize:10.f]];
+        [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
+        [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
+        [[self view] addSubview:_totalCompletionField];
         
         
         
@@ -160,31 +147,6 @@ static const CGFloat NavigationBarHeight = 44.f;
     [self setView:nil];
 }
 
-
-//- (void)viewDidLoad {
-//    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
-//    [super viewDidLoad];
-//    [[self tableView] setDelegate:self];
-//    [[self tableView] setDataSource:self];
-//    [[self tableView] setBackgroundColor:[UIColor clearColor]];
-//    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-//    [[self valueField] setDelegate:self];
-//
-//}
-
-
-//
-//- (void)viewDidUnload {
-//    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
-//    [self setBannerView:nil];
-//    [self setValueField:nil];
-//    [self setLabel:nil];
-//    [self setTableView:nil];
-//    [self setCompletionCountField:nil];
-//    [self setTotalCompletionField:nil];
-//    [super viewDidUnload];
-//}
-//
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -203,7 +165,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     if ([[self dataSource] respondsToSelector:@selector(sourceForAutoCompletionTextField:)]){
         // get the source
         NSArray *sourceArray = [(id <IMOAutocompletionViewDataSource>)[self dataSource] sourceForAutoCompletionTextField:self];
-        completionController_ = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
+        _completionController = [[IMOCompletionController alloc] initWithSource:sourceArray initialWord:[self textFieldString]];
         totalCompletionCount = [sourceArray count];
     }
     

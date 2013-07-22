@@ -29,30 +29,26 @@
 
 @implementation IMOCompletionController
 
-@synthesize source = source_;
-@synthesize ranges = ranges_;
-@synthesize rangePointer = rangePointer_;
-
 
 
 - (id)initWithSource:(NSArray *)words initialWord:(NSString *)anInitialWord{
     if (self = [super init]) {
-        source_ =   [words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        _source =   [words sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
                     return [(NSString *)obj1 caseInsensitiveCompare:(NSString *)obj2];
                     }];
         
-        ranges_ = [[NSMutableArray alloc] init];
+        _ranges = [[NSMutableArray alloc] init];
         
         
-        NSRange allWordsRange = NSMakeRange(0, [source_ count]);
-        [ranges_ addObject:[NSValue valueWithRange:allWordsRange]];
+        NSRange allWordsRange = NSMakeRange(0, [_source count]);
+        [_ranges addObject:[NSValue valueWithRange:allWordsRange]];
         
         if ([anInitialWord isEqualToString:@""] == NO) {
             [self calculateAllRangesForWord:anInitialWord];
             oldWord = anInitialWord;
         }else{
             oldWord = @"";
-            rangePointer_ = 0;
+            _rangePointer = 0;
         }
     }
     return self;
@@ -75,12 +71,10 @@
 
 
 - (void)resetRanges {
-    ranges_ = [[NSMutableArray alloc] init];
+    _ranges = [[NSMutableArray alloc] init];
     
-    
-    NSRange allWordsRange = NSMakeRange(0, [source_ count] - 1 );
-    [ranges_ addObject:[NSValue valueWithRange:allWordsRange]];
-    
+    NSRange allWordsRange = NSMakeRange(0, [_source count] - 1 );
+    [_ranges addObject:[NSValue valueWithRange:allWordsRange]];
 }
 
 

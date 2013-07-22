@@ -20,10 +20,6 @@
 
 const float IMOCellSizeMagnitude = - 10.0;
 
-@synthesize cellField = cellField_;
-@synthesize topSeparatorColor = topSeparatorColor_;
-@synthesize bottomSeparatorColor = bottomSeparatorColor_;
-@synthesize cellBackgroundColor = cellBackgroundColor_;
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -35,21 +31,21 @@ const float IMOCellSizeMagnitude = - 10.0;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier cellColors:(NSArray *)colors {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        cellField_ = [[UILabel alloc] initWithFrame:CGRectZero];
-        [cellField_ setBackgroundColor:[UIColor clearColor]];
-        [cellField_ setFont:[UIFont fontWithName:@"HelveticaNeue" size:16.0]];
-        [cellField_ setTextAlignment:NSTextAlignmentLeft];
-        [cellField_ setTextColor:[UIColor colorWithRed:0.164 green:0.170 blue:0.174 alpha:1.000]];
-        [[self contentView] addSubview:cellField_];
+        _cellField = [[UILabel alloc] initWithFrame:CGRectZero];
+        [_cellField setBackgroundColor:[UIColor clearColor]];
+        [_cellField setFont:[UIFont fontWithName:@"HelveticaNeue" size:16.0]];
+        [_cellField setTextAlignment:NSTextAlignmentLeft];
+        [_cellField setTextColor:[UIColor colorWithRed:0.164 green:0.170 blue:0.174 alpha:1.000]];
+        [[self contentView] addSubview:_cellField];
         
         if (colors) {
-            topSeparatorColor_ = colors[0];
-            bottomSeparatorColor_ = colors[1];
-            cellBackgroundColor_ = colors[2];
+            _topSeparatorColor = colors[0];
+            _bottomSeparatorColor = colors[1];
+            _cellBackgroundColor = colors[2];
         }else{//use default values
-            topSeparatorColor_ = [UIColor whiteColor];
-            bottomSeparatorColor_ = UIColorFromRGB(0xe1e1e1);
-            cellBackgroundColor_ = UIColorFromRGB(0xf2f2f2);
+            _topSeparatorColor = [UIColor whiteColor];
+            _bottomSeparatorColor = UIColorFromRGB(0xe1e1e1);
+            _cellBackgroundColor = UIColorFromRGB(0xf2f2f2);
         }
     }
     return self;
@@ -60,8 +56,9 @@ const float IMOCellSizeMagnitude = - 10.0;
 
 - (void)layoutSubviews {
     CGRect cellFieldRect = CGRectMake(10.0, 10.0, 300., 20.0);
-    [cellField_ setFrame:cellFieldRect];
+    [_cellField setFrame:cellFieldRect];
 }
+
 
 - (void)drawRect:(CGRect)rect {
     
@@ -98,15 +95,6 @@ const float IMOCellSizeMagnitude = - 10.0;
     CGContextMoveToPoint(context, 0.0, rect.size.height + IMOCellSizeMagnitude);
     CGContextAddLineToPoint(context, rect.size.width, rect.size.height + IMOCellSizeMagnitude);
     CGContextStrokePath(context);    
-}
-
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end
