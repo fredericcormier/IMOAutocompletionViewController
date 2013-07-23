@@ -29,7 +29,7 @@
     [super viewDidLoad];
     
 
-    tf_ = [[UITextField alloc] initWithFrame:CGRectMake(20.0, 60.0, 280.0, 32.0)];
+    tf_ = [[UITextField alloc] initWithFrame:CGRectMake(20.0, 120.0, 280.0, 32.0)];
     [[self tf] setBackgroundColor:[UIColor whiteColor]];
     [tf_ setDelegate:self];
     [tf_ setBorderStyle:UITextBorderStyleRoundedRect];

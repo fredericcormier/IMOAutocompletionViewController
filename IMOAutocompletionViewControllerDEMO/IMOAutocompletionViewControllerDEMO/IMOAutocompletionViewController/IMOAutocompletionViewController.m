@@ -11,6 +11,8 @@
 #import "IMOCompletionController.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define IOS7_OR_MORE                                SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
 
 NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSeparatorColor";
 NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
@@ -50,6 +52,7 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 @implementation IMOAutocompletionViewController
 
+ const CGFloat kIOS7_GAP = 60.f;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -82,6 +85,8 @@ static const CGFloat NavigationBarHeight = 44.f;
       backgroundImageName:(NSString *) bgImageName
                cellColors:(NSDictionary *)cellColors{
     
+   
+    
     if (self = [super initWithNibName:nil bundle:nil]) {
         _textFieldString        = tfstring;
         _labelString            = lstring;
@@ -105,8 +110,11 @@ static const CGFloat NavigationBarHeight = 44.f;
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
         [[self view] addSubview:_tableView];
         
-        
-        _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+        if (IOS7_OR_MORE) {
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, 320.f, NavigationBarHeight)];
+        }else{
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+        }
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
         
@@ -118,19 +126,19 @@ static const CGFloat NavigationBarHeight = 44.f;
         [_label setTextAlignment:NSTextAlignmentRight];
         [_label setFont:[UIFont boldSystemFontOfSize:12.f]];
         [_label setTextColor:[UIColor grayColor]];
-        [[self view] addSubview:_label];
+        [[self bannerView] addSubview:_label];
         
         _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
         [_completionCountField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_completionCountField setTextAlignment:NSTextAlignmentRight];
         [_completionCountField setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
-        [[self view] addSubview:_completionCountField];
+        [[self bannerView] addSubview:_completionCountField];
         
         _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
         [_totalCompletionField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
         [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
-        [[self view] addSubview:_totalCompletionField];
+        [[self bannerView] addSubview:_totalCompletionField];
         
         
         
@@ -215,8 +223,6 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 
 
-
-
 - (void)resizeTableView:(NSNotification *)notification {
     NSDictionary* keyboardInfo = [notification userInfo];
     
@@ -225,7 +231,12 @@ static const CGFloat NavigationBarHeight = 44.f;
     CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
     
     CGRect originalTableViewRect = [[self tableView] frame];
-    originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
+    if (IOS7_OR_MORE) {
+        originalTableViewRect.origin.y -= 4.f;
+        originalTableViewRect.size.height -= (keyboardHeight + (NavigationBarHeight * 2.4f)) - (kIOS7_GAP + 6.f);
+    }else{
+        originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
+    }
     [[self tableView] setFrame:originalTableViewRect];
 }
 
