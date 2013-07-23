@@ -28,6 +28,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6A7D31D8179E94360053DE1C"
+               BuildableName = "IMOAutocompletionViewControllerTests.xctest"
+               BlueprintName = "IMOAutocompletionViewControllerTests"
+               ReferencedContainer = "container:IMOAutocompletionViewControllerDEMO.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

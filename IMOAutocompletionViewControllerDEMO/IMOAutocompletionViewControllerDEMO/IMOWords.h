@@ -10,6 +10,9 @@
 
 @interface IMOWords : NSObject
 
+
+@property(nonatomic, retain)NSArray *someTokens;
+
 @property(nonatomic, strong)NSArray *tokens;
 
 + (IMOWords *)sharedWords;
