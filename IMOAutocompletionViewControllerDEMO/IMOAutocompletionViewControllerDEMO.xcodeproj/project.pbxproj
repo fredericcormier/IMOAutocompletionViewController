@@ -20,9 +20,24 @@
 		6A117AD2157505FC00F3D9C6 /* sandpaperthin.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AD0157505FC00F3D9C6 /* sandpaperthin.png */; };
 		6A117AD3157505FC00F3D9C6 /* sandpaperthin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A117AD1157505FC00F3D9C6 /* sandpaperthin@2x.png */; };
 		6A117AD41575065200F3D9C6 /* IMOWords.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A117ACF157505F400F3D9C6 /* IMOWords.m */; };
+		6A7D31DB179E94360053DE1C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A7D31DA179E94360053DE1C /* XCTest.framework */; };
+		6A7D31DC179E94360053DE1C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A117AA51575053900F3D9C6 /* Foundation.framework */; };
+		6A7D31DD179E94360053DE1C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A117AA31575053900F3D9C6 /* UIKit.framework */; };
+		6A7D31E3179E94360053DE1C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A7D31E1179E94360053DE1C /* InfoPlist.strings */; };
+		6A7D31E5179E94360053DE1C /* IMOAutocompletionViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D31E4179E94360053DE1C /* IMOAutocompletionViewControllerTests.m */; };
 		6AD52412163009AC004304CF /* IMOCompletionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD52411163009AC004304CF /* IMOCompletionController.m */; };
 		6AEF41C116B825C600F93847 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEF41C016B825C600F93847 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A7D31E7179E94360053DE1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A117A961575053800F3D9C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A117A9E1575053900F3D9C6;
+			remoteInfo = IMOAutocompletionViewControllerDEMO;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6A117A9F1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMOAutocompletionViewControllerDEMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +61,12 @@
 		6A117ACF157505F400F3D9C6 /* IMOWords.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMOWords.m; sourceTree = "<group>"; };
 		6A117AD0157505FC00F3D9C6 /* sandpaperthin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sandpaperthin.png; sourceTree = "<group>"; };
 		6A117AD1157505FC00F3D9C6 /* sandpaperthin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sandpaperthin@2x.png"; sourceTree = "<group>"; };
+		6A7D31D9179E94360053DE1C /* IMOAutocompletionViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMOAutocompletionViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A7D31DA179E94360053DE1C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		6A7D31E0179E94360053DE1C /* IMOAutocompletionViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IMOAutocompletionViewControllerTests-Info.plist"; sourceTree = "<group>"; };
+		6A7D31E2179E94360053DE1C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6A7D31E4179E94360053DE1C /* IMOAutocompletionViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IMOAutocompletionViewControllerTests.m; sourceTree = "<group>"; };
+		6A7D31E6179E94360053DE1C /* IMOAutocompletionViewControllerTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IMOAutocompletionViewControllerTests-Prefix.pch"; sourceTree = "<group>"; };
 		6AD52410163009AC004304CF /* IMOCompletionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMOCompletionController.h; sourceTree = "<group>"; };
 		6AD52411163009AC004304CF /* IMOCompletionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMOCompletionController.m; sourceTree = "<group>"; };
 		6AEF41C016B825C600F93847 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -62,6 +83,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A7D31D6179E94360053DE1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7D31DB179E94360053DE1C /* XCTest.framework in Frameworks */,
+				6A7D31DD179E94360053DE1C /* UIKit.framework in Frameworks */,
+				6A7D31DC179E94360053DE1C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -69,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				6A117AA91575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO */,
+				6A7D31DE179E94360053DE1C /* IMOAutocompletionViewControllerTests */,
 				6A117AA21575053900F3D9C6 /* Frameworks */,
 				6A117AA01575053900F3D9C6 /* Products */,
 			);
@@ -78,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				6A117A9F1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO.app */,
+				6A7D31D9179E94360053DE1C /* IMOAutocompletionViewControllerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,6 +121,7 @@
 				6A117AA31575053900F3D9C6 /* UIKit.framework */,
 				6A117AA51575053900F3D9C6 /* Foundation.framework */,
 				6A117AA71575053900F3D9C6 /* CoreGraphics.framework */,
+				6A7D31DA179E94360053DE1C /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -137,6 +171,25 @@
 			name = graphics;
 			sourceTree = "<group>";
 		};
+		6A7D31DE179E94360053DE1C /* IMOAutocompletionViewControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				6A7D31E4179E94360053DE1C /* IMOAutocompletionViewControllerTests.m */,
+				6A7D31DF179E94360053DE1C /* Supporting Files */,
+			);
+			path = IMOAutocompletionViewControllerTests;
+			sourceTree = "<group>";
+		};
+		6A7D31DF179E94360053DE1C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6A7D31E0179E94360053DE1C /* IMOAutocompletionViewControllerTests-Info.plist */,
+				6A7D31E1179E94360053DE1C /* InfoPlist.strings */,
+				6A7D31E6179E94360053DE1C /* IMOAutocompletionViewControllerTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		6ADDEAEF170D7B3800E9BE19 /* IMOAutocompletionApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +224,24 @@
 			productReference = 6A117A9F1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO.app */;
 			productType = "com.apple.product-type.application";
 		};
+		6A7D31D8179E94360053DE1C /* IMOAutocompletionViewControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A7D31EB179E94360053DE1C /* Build configuration list for PBXNativeTarget "IMOAutocompletionViewControllerTests" */;
+			buildPhases = (
+				6A7D31D5179E94360053DE1C /* Sources */,
+				6A7D31D6179E94360053DE1C /* Frameworks */,
+				6A7D31D7179E94360053DE1C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A7D31E8179E94360053DE1C /* PBXTargetDependency */,
+			);
+			name = IMOAutocompletionViewControllerTests;
+			productName = IMOAutocompletionViewControllerTests;
+			productReference = 6A7D31D9179E94360053DE1C /* IMOAutocompletionViewControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -179,6 +250,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "International MicrOondes";
+				TargetAttributes = {
+					6A7D31D8179E94360053DE1C = {
+						TestTargetID = 6A117A9E1575053900F3D9C6;
+					};
+				};
 			};
 			buildConfigurationList = 6A117A991575053800F3D9C6 /* Build configuration list for PBXProject "IMOAutocompletionViewControllerDEMO" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -193,6 +269,7 @@
 			projectRoot = "";
 			targets = (
 				6A117A9E1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO */,
+				6A7D31D8179E94360053DE1C /* IMOAutocompletionViewControllerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -207,6 +284,14 @@
 				6A117AD2157505FC00F3D9C6 /* sandpaperthin.png in Resources */,
 				6A117AD3157505FC00F3D9C6 /* sandpaperthin@2x.png in Resources */,
 				6AEF41C116B825C600F93847 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A7D31D7179E94360053DE1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7D31E3179E94360053DE1C /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +312,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6A7D31D5179E94360053DE1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A7D31E5179E94360053DE1C /* IMOAutocompletionViewControllerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A7D31E8179E94360053DE1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A117A9E1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO */;
+			targetProxy = 6A7D31E7179E94360053DE1C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6A117AAC1575053900F3D9C6 /* InfoPlist.strings */ = {
@@ -244,6 +345,14 @@
 				6A117AB91575053900F3D9C6 /* en */,
 			);
 			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+		6A7D31E1179E94360053DE1C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A7D31E2179E94360053DE1C /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -333,6 +442,63 @@
 			};
 			name = Release;
 		};
+		6A7D31E9179E94360053DE1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/IMOAutocompletionViewControllerDEMO.app/IMOAutocompletionViewControllerDEMO";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerTests/IMOAutocompletionViewControllerTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				INFOPLIST_FILE = "IMOAutocompletionViewControllerTests/IMOAutocompletionViewControllerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		6A7D31EA179E94360053DE1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/IMOAutocompletionViewControllerDEMO.app/IMOAutocompletionViewControllerDEMO";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(SYSTEM_APPS_DIR)/Xcode5-DP3.app/Contents/Developer/Library/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IMOAutocompletionViewControllerTests/IMOAutocompletionViewControllerTests-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				INFOPLIST_FILE = "IMOAutocompletionViewControllerTests/IMOAutocompletionViewControllerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -353,6 +519,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		6A7D31EB179E94360053DE1C /* Build configuration list for PBXNativeTarget "IMOAutocompletionViewControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A7D31E9179E94360053DE1C /* Debug */,
+				6A7D31EA179E94360053DE1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
