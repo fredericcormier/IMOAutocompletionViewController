@@ -33,6 +33,7 @@
 			<object class="IBUIView" id="774585933">
 				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
+				<array class="NSMutableArray" key="NSSubviews"/>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
@@ -80,6 +81,7 @@
 					<object class="IBObjectRecord">
 						<string key="id">6</string>
 						<reference key="object" ref="774585933"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</array>

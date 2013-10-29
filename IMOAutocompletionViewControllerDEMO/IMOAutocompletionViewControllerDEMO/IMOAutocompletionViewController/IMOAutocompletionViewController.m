@@ -52,7 +52,7 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 @implementation IMOAutocompletionViewController
 
- const CGFloat kIOS7_GAP = 60.f;
+const CGFloat kIOS7_GAP = 60.f;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -85,7 +85,7 @@ static const CGFloat NavigationBarHeight = 44.f;
       backgroundImageName:(NSString *) bgImageName
                cellColors:(NSDictionary *)cellColors{
     
-   
+    
     
     if (self = [super initWithNibName:nil bundle:nil]) {
         _textFieldString        = tfstring;
@@ -96,29 +96,31 @@ static const CGFloat NavigationBarHeight = 44.f;
         
         if (cellColors != nil) {
             _cellColorsArray = @[cellColors[IMOCompletionCellTopSeparatorColor],
-                                cellColors[IMOCompletionCellBottomSeparatorColor],
-                                cellColors[IMOCompletionCellBackgroundColor]];
+                                 cellColors[IMOCompletionCellBottomSeparatorColor],
+                                 cellColors[IMOCompletionCellBackgroundColor]];
         }else{
             _cellColorsArray = nil;
         }
+        CGFloat bannerWidth = [[self view] frame].size.width;
         
-        
-        
-        [self setView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, [self screenHeight])]];
-
-        
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,
+                                                                  NavigationBarHeight,
+                                                                  bannerWidth,
+                                                                  [self screenHeight])
+                                                 style:UITableViewStylePlain];
         [[self view] addSubview:_tableView];
         
         if (IOS7_OR_MORE) {
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, 320.f, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, bannerWidth, NavigationBarHeight)];
         }else{
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bannerWidth, NavigationBarHeight)];
         }
+        [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
         
         _valueField = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
+        [_valueField setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [[self bannerView] addSubview:_valueField];
         
@@ -129,19 +131,18 @@ static const CGFloat NavigationBarHeight = 44.f;
         [[self bannerView] addSubview:_label];
         
         _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
+        [_completionCountField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_completionCountField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_completionCountField setTextAlignment:NSTextAlignmentRight];
         [_completionCountField setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
         [[self bannerView] addSubview:_completionCountField];
         
         _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
+        [_totalCompletionField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_totalCompletionField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
         [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
         [[self bannerView] addSubview:_totalCompletionField];
-        
-        
-        
     }
     return self;
 }
@@ -167,6 +168,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     [[self tableView] setDataSource:self];
     [[self tableView] setBackgroundColor:[UIColor clearColor]];
     [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [[self tableView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [[self valueField] setDelegate:self];
     
     
@@ -215,29 +217,65 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+    //    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+
+- (void)positionViewsForNextInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    //    NSLog(@"Rotating to %d", interfaceOrientation);
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        // Moving to portrait mode
+    }
+    if (interfaceOrientation == UIInterfaceOrientationMaskPortrait || interfaceOrientation == UIInterfaceOrientationMaskPortraitUpsideDown) {
+        //moving to landscape mode
+        //        CGRect bRect = [[self bannerView] frame];
+        //        bRect.size.width =
+    }
+    
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self positionViewsForNextInterfaceOrientation:fromInterfaceOrientation];
 }
 
 
 
 
-
+#warning when relaunching this very controller in lanscape mode the tableview size is wrong
 - (void)resizeTableView:(NSNotification *)notification {
     NSDictionary* keyboardInfo = [notification userInfo];
+    //    NSLog(@"Resizing tableView because:%@",keyboardInfo);
     
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
+    NSLog(@"Keyboard rect: %@", NSStringFromCGRect(keyboardFrameBeginRect));
     
-    CGRect originalTableViewRect = [[self tableView] frame];
-    if (IOS7_OR_MORE) {
-        originalTableViewRect.origin.y -= 4.f;
-        originalTableViewRect.size.height -= (keyboardHeight + (NavigationBarHeight * 2.4f)) - (kIOS7_GAP + 6.f);
-    }else{
-        originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
+    // the height and width are "swapped" depending on the orientation
+    CGFloat keyboardHeight;
+    
+    UIInterfaceOrientation orientation = [self interfaceOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        //portrait
+         keyboardHeight = keyboardFrameBeginRect.size.height;
+    }else {
+        //landscape
+        keyboardHeight = keyboardFrameBeginRect.size.width;
     }
-    [[self tableView] setFrame:originalTableViewRect];
+    
+#warning fix the ios7 weideries
+    
+    CGFloat tableViewHeight = [self screenHeight] - (keyboardHeight + NavigationBarHeight + [[self bannerView] frame].size.height);
+    CGRect tableViewRect = [[self tableView] frame];
+    tableViewRect.size.height = tableViewHeight;
+    //    if (IOS7_OR_MORE) {
+    //        tableViewRect.origin.y -= 4.f;
+    //        tableViewRect.size.height -= (keyboardHeight + (NavigationBarHeight * 2.4f)) - (kIOS7_GAP + 6.f);
+    //    }else{
+    //        tableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
+    //    }
+    NSLog(@"TableView New frame:%@", NSStringFromCGRect(tableViewRect));
+    [[self tableView] setFrame:tableViewRect];
 }
 
 
@@ -296,7 +334,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     // Cell size default is 44.0.
     // This will return a size of 34.0
     // The custom cell needs to know the - 10.0 difference
-    return 44.0 + IMOCellSizeMagnitude;
+    return 34.0;
 }
 
 
@@ -327,14 +365,15 @@ static const CGFloat NavigationBarHeight = 44.f;
     if (nil == cell) {
         if ([self cellColorsArray]) { // call with custom colors
             cell = [[IMOCompletionCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                             reuseIdentifier:completionCell
-                                                  cellColors:[self cellColorsArray]];
+                                            reuseIdentifier:completionCell
+                                                 cellColors:[self cellColorsArray]];
         }else { // call with default colors
             cell = [[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1
-                                            reuseIdentifier:completionCell];
+                                           reuseIdentifier:completionCell];
         }
     }
     NSString *thisCompletion = [[[self completionController] completions][[indexPath row]] lowercaseString];
+    [cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [[cell cellField] setText:thisCompletion];
     return cell;
 }
