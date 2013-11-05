@@ -41,11 +41,8 @@ static const CGFloat kStatusBarHeight =                     20.f;
 
 
 
-/* Shadow is always on
- Could be off when there is no row in the tableView
- and on when the table view appears(like in mail app email addresses) */
 - (void)showBannerViewShadow:(BOOL)show;
-- (void)resizeTableView:(NSNotification *)notification;
+- (void)resizeUI:(NSNotification *)notification;
 - (void)controllerCancelled;
 - (CGFloat)screenHeight;
 @end
@@ -94,7 +91,7 @@ const CGFloat kIOS7_GAP = 60.f;
         _labelString            = lstring;
         _backgroundImageName    = bgImageName;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeUI:) name:UIKeyboardDidShowNotification object:nil];
         
         if (cellColors != nil) {
             _cellColorsArray = @[cellColors[IMOCompletionCellTopSeparatorColor],
@@ -107,13 +104,10 @@ const CGFloat kIOS7_GAP = 60.f;
         CGFloat viewWidth;
         
         UIInterfaceOrientation orientation = [self interfaceOrientation];
-        NSLog(@"view frame %@", NSStringFromCGRect([[self view] frame]));
         if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
             viewWidth = [[self view] frame].size.width;
-            NSLog(@"Table View Starts in portrait mode");
         }else{
             viewWidth = [[self view] frame].size.height;
-           NSLog(@"Table View starts in landscape mode");
         }
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,
                                                                   kNavigationBarHeightPortrait,
@@ -123,7 +117,7 @@ const CGFloat kIOS7_GAP = 60.f;
         [[self view] addSubview:_tableView];
         
         if (IOS7_OR_MORE) {
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, viewWidth, kNavigationBarHeightPortrait)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait + 4.f)];
         }else{
             _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait)];
         }
@@ -131,8 +125,6 @@ const CGFloat kIOS7_GAP = 60.f;
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
 
-        NSLog(@"banner width is %f",  [_bannerView frame].size.width);
-        NSLog(@"view width is %f", viewWidth);
         _valueField = [[UITextField alloc] initWithFrame:CGRectMake([_bannerView frame].origin.x + 75.f, 12.f, viewWidth - 120.f, 24.f)];
         [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [[self bannerView] addSubview:_valueField];
@@ -180,7 +172,12 @@ const CGFloat kIOS7_GAP = 60.f;
     [[self tableView] setDelegate:self];
     [[self tableView] setDataSource:self];
     [[self tableView] setBackgroundColor:[UIColor clearColor]];
-    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    if (IOS7_OR_MORE) {
+        [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    }else{
+        [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        
+    }
     [[self tableView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [[self valueField] setDelegate:self];
     
@@ -236,28 +233,14 @@ const CGFloat kIOS7_GAP = 60.f;
 }
 
 
-- (void)positionViewsForNextInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    //    NSLog(@"Rotating to %d", interfaceOrientation);
-    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        // Moving to portrait mode
-    }
-    if (interfaceOrientation == UIInterfaceOrientationMaskPortrait || interfaceOrientation == UIInterfaceOrientationMaskPortraitUpsideDown) {
-        //moving to landscape mode
-        //        CGRect bRect = [[self bannerView] frame];
-        //        bRect.size.width =
-    }
+- (void)resizeUI:(NSNotification *)notification {
     
-}
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self positionViewsForNextInterfaceOrientation:fromInterfaceOrientation];
-}
+    CGFloat ios7NavBarHeight;
 
-
-
-
-- (void)resizeTableView:(NSNotification *)notification {
+    
     NSDictionary* keyboardInfo = [notification userInfo];
     
+    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
     NSLog(@"Keyboard rect: %@", NSStringFromCGRect(keyboardFrameBeginRect));
@@ -270,24 +253,35 @@ const CGFloat kIOS7_GAP = 60.f;
     UIInterfaceOrientation orientation = [self interfaceOrientation];
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         keyboardHeight = keyboardFrameBeginRect.size.height;
-        tableViewHeight = [self screenHeight] - (keyboardHeight + (kNavigationBarHeightPortrait * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
         tableViewWidth = keyboardFrameBeginRect.size.width;
+        tableViewHeight = [self screenHeight] - (keyboardHeight + (kNavigationBarHeightPortrait * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        ios7NavBarHeight = kNavigationBarHeightPortrait + kStatusBarHeight;
 
     }else {
         //landscape
         keyboardHeight = keyboardFrameBeginRect.size.width;
-        tableViewHeight = [self screenWidth] - (keyboardHeight + (kNavigationBarHeightLandscape * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
         tableViewWidth = keyboardFrameBeginRect.size.height;
+        tableViewHeight = [self screenWidth] - (keyboardHeight + (kNavigationBarHeightLandscape * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        ios7NavBarHeight = kNavigationBarHeightLandscape +kStatusBarHeight;
+        
     }
     CGRect valueFieldRect = CGRectMake([[self bannerView] frame].origin.x + 75.f, 12.f, tableViewWidth - 120.f, 24.f);
     [[self valueField] setFrame:valueFieldRect];
     
+    // replace the banner view correctly
+    if (IOS7_OR_MORE) {
+        CGRect bannerRect = [[self bannerView] frame];
+        bannerRect.origin.y = ios7NavBarHeight;
+        [[self bannerView] setFrame:bannerRect];
+    }
     
-#warning fix the ios7 weideries
     CGRect tableViewRect = [[self tableView] frame];
-    tableViewRect.size.height = tableViewHeight;
+    if (IOS7_OR_MORE) {
+        tableViewRect.size.height = tableViewHeight + ios7NavBarHeight +4.f ;
+    }else{
+        tableViewRect.size.height = tableViewHeight;
+    }
     tableViewRect.size.width = tableViewWidth;
-    NSLog(@"TableView New frame:%@", NSStringFromCGRect(tableViewRect));
     [[self tableView] setFrame:tableViewRect];
 }
 
@@ -367,7 +361,6 @@ const CGFloat kIOS7_GAP = 60.f;
 }
 
 
-//???: Always show the banner shadow ?
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int rows = [[[self completionController] completions] count];
     if (rows == 0) {
