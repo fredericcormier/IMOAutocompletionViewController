@@ -18,7 +18,9 @@ NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSepa
 NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
 NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroundColor";
 
-static const CGFloat NavigationBarHeight = 44.f;
+static const CGFloat kNavigationBarHeightPortrait = 44.f;
+static const CGFloat kNavigationBarHeightLandscape = 32.f;
+static const CGFloat kStatusBarHeight = 20.f;
 
 @interface IMOAutocompletionViewController ()
 
@@ -101,26 +103,37 @@ const CGFloat kIOS7_GAP = 60.f;
         }else{
             _cellColorsArray = nil;
         }
-        CGFloat bannerWidth = [[self view] frame].size.width;
         
+        CGFloat viewWidth;
+        
+        UIInterfaceOrientation orientation = [self interfaceOrientation];
+        NSLog(@"view frame %@", NSStringFromCGRect([[self view] frame]));
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+            viewWidth = [[self view] frame].size.width;
+            NSLog(@"Table View Starts in portrait mode");
+        }else{
+            viewWidth = [[self view] frame].size.height;
+           NSLog(@"Table View starts in landscape mode");
+        }
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,
-                                                                  NavigationBarHeight,
-                                                                  bannerWidth,
+                                                                  kNavigationBarHeightPortrait,
+                                                                  viewWidth,
                                                                   [self screenHeight])
                                                  style:UITableViewStylePlain];
         [[self view] addSubview:_tableView];
         
         if (IOS7_OR_MORE) {
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, bannerWidth, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, viewWidth, kNavigationBarHeightPortrait)];
         }else{
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bannerWidth, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait)];
         }
         [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
-        
-        _valueField = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
-        [_valueField setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+
+        NSLog(@"banner width is %f",  [_bannerView frame].size.width);
+        NSLog(@"view width is %f", viewWidth);
+        _valueField = [[UITextField alloc] initWithFrame:CGRectMake([_bannerView frame].origin.x + 75.f, 12.f, viewWidth - 120.f, 24.f)];
         [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [[self bannerView] addSubview:_valueField];
         
@@ -147,12 +160,12 @@ const CGFloat kIOS7_GAP = 60.f;
     return self;
 }
 
+
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([self completionController]) {
     }
-    
-    
     [self setView:nil];
 }
 
@@ -245,7 +258,6 @@ const CGFloat kIOS7_GAP = 60.f;
 #warning when relaunching this very controller in lanscape mode the tableview size is wrong
 - (void)resizeTableView:(NSNotification *)notification {
     NSDictionary* keyboardInfo = [notification userInfo];
-    //    NSLog(@"Resizing tableView because:%@",keyboardInfo);
     
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
@@ -253,27 +265,29 @@ const CGFloat kIOS7_GAP = 60.f;
     
     // the height and width are "swapped" depending on the orientation
     CGFloat keyboardHeight;
+    CGFloat tableViewHeight = 0;
+    CGFloat tableViewWidth = 0;
     
     UIInterfaceOrientation orientation = [self interfaceOrientation];
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        //portrait
-         keyboardHeight = keyboardFrameBeginRect.size.height;
+        keyboardHeight = keyboardFrameBeginRect.size.height;
+        tableViewHeight = [self screenHeight] - (keyboardHeight + (kNavigationBarHeightPortrait * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        tableViewWidth = keyboardFrameBeginRect.size.width;
+
     }else {
         //landscape
         keyboardHeight = keyboardFrameBeginRect.size.width;
+        tableViewHeight = [self screenWidth] - (keyboardHeight + (kNavigationBarHeightLandscape * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        tableViewWidth = keyboardFrameBeginRect.size.height;
     }
+    CGRect valueFieldRect = CGRectMake([[self bannerView] frame].origin.x + 75.f, 12.f, tableViewWidth - 120.f, 24.f);
+    [[self valueField] setFrame:valueFieldRect];
+    
     
 #warning fix the ios7 weideries
-    
-    CGFloat tableViewHeight = [self screenHeight] - (keyboardHeight + NavigationBarHeight + [[self bannerView] frame].size.height);
     CGRect tableViewRect = [[self tableView] frame];
     tableViewRect.size.height = tableViewHeight;
-    //    if (IOS7_OR_MORE) {
-    //        tableViewRect.origin.y -= 4.f;
-    //        tableViewRect.size.height -= (keyboardHeight + (NavigationBarHeight * 2.4f)) - (kIOS7_GAP + 6.f);
-    //    }else{
-    //        tableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
-    //    }
+    tableViewRect.size.width = tableViewWidth;
     NSLog(@"TableView New frame:%@", NSStringFromCGRect(tableViewRect));
     [[self tableView] setFrame:tableViewRect];
 }
@@ -291,8 +305,18 @@ const CGFloat kIOS7_GAP = 60.f;
 }
 
 
+- (CGFloat)screenWidth {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        return result.width;
+    }
+    return 0;
+}
 
 - (void)showBannerViewShadow:(BOOL)show {
+    if (IOS7_OR_MORE) {
+        return;
+    }
     [self bannerView ].layer.masksToBounds = show ? NO : YES;
     [self bannerView ].layer.shadowOffset = CGSizeMake(0, 3);
     [self bannerView ].layer.shadowColor=[[UIColor colorWithWhite:0.546 alpha:0.870] CGColor];
