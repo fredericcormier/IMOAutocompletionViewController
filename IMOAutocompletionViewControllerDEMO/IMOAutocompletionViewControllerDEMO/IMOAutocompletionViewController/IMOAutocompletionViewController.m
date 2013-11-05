@@ -14,13 +14,13 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IOS7_OR_MORE                                SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
 
-NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSeparatorColor";
-NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
-NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroundColor";
+NSString * const IMOCompletionCellTopSeparatorColor =       @"IMOCompletionCellTopSeparatorColor";
+NSString * const IMOCompletionCellBottomSeparatorColor =    @"IMOCompletionCellBottomSeparatorColor";
+NSString * const IMOCompletionCellBackgroundColor =         @"IMOCompletionCellBackgroundColor";
 
-static const CGFloat kNavigationBarHeightPortrait = 44.f;
-static const CGFloat kNavigationBarHeightLandscape = 32.f;
-static const CGFloat kStatusBarHeight = 20.f;
+static const CGFloat kNavigationBarHeightPortrait =         44.f;
+static const CGFloat kNavigationBarHeightLandscape =        32.f;
+static const CGFloat kStatusBarHeight =                     20.f;
 
 @interface IMOAutocompletionViewController ()
 
@@ -41,7 +41,7 @@ static const CGFloat kStatusBarHeight = 20.f;
 
 
 
-/* Shadow It's always on
+/* Shadow is always on
  Could be off when there is no row in the tableView
  and on when the table view appears(like in mail app email addresses) */
 - (void)showBannerViewShadow:(BOOL)show;
@@ -255,7 +255,6 @@ const CGFloat kIOS7_GAP = 60.f;
 
 
 
-#warning when relaunching this very controller in lanscape mode the tableview size is wrong
 - (void)resizeTableView:(NSNotification *)notification {
     NSDictionary* keyboardInfo = [notification userInfo];
     
