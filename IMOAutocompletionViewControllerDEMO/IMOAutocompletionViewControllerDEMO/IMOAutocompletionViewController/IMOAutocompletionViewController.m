@@ -24,34 +24,24 @@ static const CGFloat kStatusBarHeight =                     20.f;
 
 @interface IMOAutocompletionViewController ()
 
-
 @property (strong, nonatomic) IBOutlet UIView *bannerView;
 @property (strong, nonatomic) IBOutlet UITextField *valueField;
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UILabel *completionCountField;
 @property (strong, nonatomic) IBOutlet UILabel *totalCompletionField;
-
 @property (nonatomic, strong) NSArray *cellColorsArray;
 @property (strong, nonatomic) IMOCompletionController *completionController;
-
 @property (nonatomic, strong) NSString *textFieldString;
 @property (nonatomic, strong) NSString *labelString;
 @property (nonatomic, strong) NSString *backgroundImageName;
 
-
-
-- (void)showBannerViewShadow:(BOOL)show;
-- (void)resizeUI:(NSNotification *)notification;
-- (void)controllerCancelled;
-- (CGFloat)screenHeight;
 @end
 
 
 
 @implementation IMOAutocompletionViewController
 
-const CGFloat kIOS7_GAP = 60.f;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -148,6 +138,8 @@ const CGFloat kIOS7_GAP = 60.f;
         [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
         [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
         [[self bannerView] addSubview:_totalCompletionField];
+        
+        [[self tableView] setHidden:YES];
     }
     return self;
 }
@@ -203,7 +195,7 @@ const CGFloat kIOS7_GAP = 60.f;
     if (nil == [self backgroundImageName]) {
         [[self tableView] setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
     }else {
-        // we got a background picture passed in
+        // we got a background image passed in
         [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[self backgroundImageName]]]];
     }
     [[self tableView] reloadData];
@@ -229,21 +221,17 @@ const CGFloat kIOS7_GAP = 60.f;
 
 - (NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskAll;
-    //    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 
 - (void)resizeUI:(NSNotification *)notification {
     
-    CGFloat ios7NavBarHeight;
-
-    
     NSDictionary* keyboardInfo = [notification userInfo];
     
-    NSLog(@"%@ Invoked",[NSString stringWithUTF8String:__PRETTY_FUNCTION__]);
+    CGFloat ios7NavBarHeight;
+
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    NSLog(@"Keyboard rect: %@", NSStringFromCGRect(keyboardFrameBeginRect));
     
     // the height and width are "swapped" depending on the orientation
     CGFloat keyboardHeight;
@@ -256,19 +244,17 @@ const CGFloat kIOS7_GAP = 60.f;
         tableViewWidth = keyboardFrameBeginRect.size.width;
         tableViewHeight = [self screenHeight] - (keyboardHeight + (kNavigationBarHeightPortrait * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
         ios7NavBarHeight = kNavigationBarHeightPortrait + kStatusBarHeight;
-
     }else {
-        //landscape
         keyboardHeight = keyboardFrameBeginRect.size.width;
         tableViewWidth = keyboardFrameBeginRect.size.height;
         tableViewHeight = [self screenWidth] - (keyboardHeight + (kNavigationBarHeightLandscape * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
         ios7NavBarHeight = kNavigationBarHeightLandscape +kStatusBarHeight;
-        
     }
+    
     CGRect valueFieldRect = CGRectMake([[self bannerView] frame].origin.x + 75.f, 12.f, tableViewWidth - 120.f, 24.f);
     [[self valueField] setFrame:valueFieldRect];
     
-    // replace the banner view correctly
+    // Place the banner view correctly
     if (IOS7_OR_MORE) {
         CGRect bannerRect = [[self bannerView] frame];
         bannerRect.origin.y = ios7NavBarHeight;
@@ -283,6 +269,7 @@ const CGFloat kIOS7_GAP = 60.f;
     }
     tableViewRect.size.width = tableViewWidth;
     [[self tableView] setFrame:tableViewRect];
+    [[self tableView] setHidden:NO];
 }
 
 
