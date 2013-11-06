@@ -18,8 +18,6 @@
 
 @implementation IMOCompletionCell
 
-const float IMOCellSizeMagnitude = - 10.0;
-
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -55,7 +53,8 @@ const float IMOCellSizeMagnitude = - 10.0;
 
 
 - (void)layoutSubviews {
-    CGRect cellFieldRect = CGRectMake(10.0, 10.0, 300., 20.0);
+    [super layoutSubviews];
+    CGRect cellFieldRect = CGRectMake(10.f, 8.5f, 300.f, 20.f);
     [_cellField setFrame:cellFieldRect];
 }
 
@@ -81,6 +80,7 @@ const float IMOCellSizeMagnitude = - 10.0;
     CGContextClosePath(context);
     CGContextFillPath(context);
         // Top Separator
+    
     CGContextSetStrokeColorWithColor(context, topSeparatorColorRef);
     CGContextSetLineWidth(context, kLineWidth);
     CGContextSetLineCap(context, kCGLineCapSquare);
@@ -89,12 +89,14 @@ const float IMOCellSizeMagnitude = - 10.0;
     CGContextStrokePath(context);
     
     //Bottom Separator
+    
     CGContextSetStrokeColorWithColor(context, bottomSeparatorColorRef);
     CGContextSetLineWidth(context, kLineWidth);
     CGContextSetLineCap(context, kCGLineCapSquare);
-    CGContextMoveToPoint(context, 0.0, rect.size.height + IMOCellSizeMagnitude);
-    CGContextAddLineToPoint(context, rect.size.width, rect.size.height + IMOCellSizeMagnitude);
+    CGContextMoveToPoint(context, 0.0, rect.size.height );
+    CGContextAddLineToPoint(context, rect.size.width, rect.size.height );
     CGContextStrokePath(context);    
+    
 }
 
 @end

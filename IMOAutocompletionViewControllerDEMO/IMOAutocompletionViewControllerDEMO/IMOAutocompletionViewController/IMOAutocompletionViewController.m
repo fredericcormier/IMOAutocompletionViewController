@@ -14,14 +14,15 @@
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IOS7_OR_MORE                                SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
 
-NSString * const IMOCompletionCellTopSeparatorColor = @"IMOCompletionCellTopSeparatorColor";
-NSString * const IMOCompletionCellBottomSeparatorColor = @"IMOCompletionCellBottomSeparatorColor";
-NSString * const IMOCompletionCellBackgroundColor = @"IMOCompletionCellBackgroundColor";
+NSString * const IMOCompletionCellTopSeparatorColor =       @"IMOCompletionCellTopSeparatorColor";
+NSString * const IMOCompletionCellBottomSeparatorColor =    @"IMOCompletionCellBottomSeparatorColor";
+NSString * const IMOCompletionCellBackgroundColor =         @"IMOCompletionCellBackgroundColor";
 
-static const CGFloat NavigationBarHeight = 44.f;
+static const CGFloat kNavigationBarHeightPortrait =         44.f;
+static const CGFloat kNavigationBarHeightLandscape =        32.f;
+static const CGFloat kStatusBarHeight =                     20.f;
 
 @interface IMOAutocompletionViewController ()
-
 
 @property (strong, nonatomic) IBOutlet UIView *bannerView;
 @property (strong, nonatomic) IBOutlet UITextField *valueField;
@@ -29,30 +30,18 @@ static const CGFloat NavigationBarHeight = 44.f;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UILabel *completionCountField;
 @property (strong, nonatomic) IBOutlet UILabel *totalCompletionField;
-
 @property (nonatomic, strong) NSArray *cellColorsArray;
 @property (strong, nonatomic) IMOCompletionController *completionController;
-
 @property (nonatomic, strong) NSString *textFieldString;
 @property (nonatomic, strong) NSString *labelString;
 @property (nonatomic, strong) NSString *backgroundImageName;
 
-
-
-/* Shadow It's always on
- Could be off when there is no row in the tableView
- and on when the table view appears(like in mail app email addresses) */
-- (void)showBannerViewShadow:(BOOL)show;
-- (void)resizeTableView:(NSNotification *)notification;
-- (void)controllerCancelled;
-- (CGFloat)screenHeight;
 @end
 
 
 
 @implementation IMOAutocompletionViewController
 
- const CGFloat kIOS7_GAP = 60.f;
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -85,40 +74,48 @@ static const CGFloat NavigationBarHeight = 44.f;
       backgroundImageName:(NSString *) bgImageName
                cellColors:(NSDictionary *)cellColors{
     
-   
+    
     
     if (self = [super initWithNibName:nil bundle:nil]) {
         _textFieldString        = tfstring;
         _labelString            = lstring;
         _backgroundImageName    = bgImageName;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeTableView:) name:UIKeyboardDidShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeUI:) name:UIKeyboardDidShowNotification object:nil];
         
         if (cellColors != nil) {
             _cellColorsArray = @[cellColors[IMOCompletionCellTopSeparatorColor],
-                                cellColors[IMOCompletionCellBottomSeparatorColor],
-                                cellColors[IMOCompletionCellBackgroundColor]];
+                                 cellColors[IMOCompletionCellBottomSeparatorColor],
+                                 cellColors[IMOCompletionCellBackgroundColor]];
         }else{
             _cellColorsArray = nil;
         }
         
+        CGFloat viewWidth;
         
-        
-        [self setView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, [self screenHeight])]];
-
-        
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, NavigationBarHeight, 320.f, [self screenHeight]) style:UITableViewStylePlain];
+        UIInterfaceOrientation orientation = [self interfaceOrientation];
+        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+            viewWidth = [[self view] frame].size.width;
+        }else{
+            viewWidth = [[self view] frame].size.height;
+        }
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,
+                                                                  kNavigationBarHeightPortrait,
+                                                                  viewWidth,
+                                                                  [self screenHeight])
+                                                 style:UITableViewStylePlain];
         [[self view] addSubview:_tableView];
         
         if (IOS7_OR_MORE) {
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, kIOS7_GAP, 320.f, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait + 4.f)];
         }else{
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320.f, NavigationBarHeight)];
+            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait)];
         }
+        [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
-        
-        _valueField = [[UITextField alloc] initWithFrame:CGRectMake(75.f, 12.f, 200.f, 24.f)];
+
+        _valueField = [[UITextField alloc] initWithFrame:CGRectMake([_bannerView frame].origin.x + 75.f, 12.f, viewWidth - 120.f, 24.f)];
         [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [[self bannerView] addSubview:_valueField];
         
@@ -129,29 +126,30 @@ static const CGFloat NavigationBarHeight = 44.f;
         [[self bannerView] addSubview:_label];
         
         _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
+        [_completionCountField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_completionCountField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_completionCountField setTextAlignment:NSTextAlignmentRight];
         [_completionCountField setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
         [[self bannerView] addSubview:_completionCountField];
         
         _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
+        [_totalCompletionField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_totalCompletionField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
         [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
         [[self bannerView] addSubview:_totalCompletionField];
         
-        
-        
+        [[self tableView] setHidden:YES];
     }
     return self;
 }
+
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([self completionController]) {
     }
-    
-    
     [self setView:nil];
 }
 
@@ -166,7 +164,13 @@ static const CGFloat NavigationBarHeight = 44.f;
     [[self tableView] setDelegate:self];
     [[self tableView] setDataSource:self];
     [[self tableView] setBackgroundColor:[UIColor clearColor]];
-    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    if (IOS7_OR_MORE) {
+        [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    }else{
+        [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        
+    }
+    [[self tableView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [[self valueField] setDelegate:self];
     
     
@@ -191,7 +195,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     if (nil == [self backgroundImageName]) {
         [[self tableView] setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
     }else {
-        // we got a background picture passed in
+        // we got a background image passed in
         [[self tableView] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:[self backgroundImageName]]]];
     }
     [[self tableView] reloadData];
@@ -215,29 +219,57 @@ static const CGFloat NavigationBarHeight = 44.f;
 
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
 }
 
 
-
-
-
-- (void)resizeTableView:(NSNotification *)notification {
+- (void)resizeUI:(NSNotification *)notification {
+    
     NSDictionary* keyboardInfo = [notification userInfo];
     
+    CGFloat ios7NavBarHeight;
+
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    CGFloat keyboardHeight = keyboardFrameBeginRect.size.height;
     
-    CGRect originalTableViewRect = [[self tableView] frame];
-    if (IOS7_OR_MORE) {
-        originalTableViewRect.origin.y -= 4.f;
-        originalTableViewRect.size.height -= (keyboardHeight + (NavigationBarHeight * 2.4f)) - (kIOS7_GAP + 6.f);
-    }else{
-        originalTableViewRect.size.height -= keyboardHeight + (NavigationBarHeight * 2.4f);
+    // the height and width are "swapped" depending on the orientation
+    CGFloat keyboardHeight;
+    CGFloat tableViewHeight = 0;
+    CGFloat tableViewWidth = 0;
+    
+    UIInterfaceOrientation orientation = [self interfaceOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        keyboardHeight = keyboardFrameBeginRect.size.height;
+        tableViewWidth = keyboardFrameBeginRect.size.width;
+        tableViewHeight = [self screenHeight] - (keyboardHeight + (kNavigationBarHeightPortrait * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        ios7NavBarHeight = kNavigationBarHeightPortrait + kStatusBarHeight;
+    }else {
+        keyboardHeight = keyboardFrameBeginRect.size.width;
+        tableViewWidth = keyboardFrameBeginRect.size.height;
+        tableViewHeight = [self screenWidth] - (keyboardHeight + (kNavigationBarHeightLandscape * 1.f) + kStatusBarHeight + [[self bannerView] frame].size.height);
+        ios7NavBarHeight = kNavigationBarHeightLandscape +kStatusBarHeight;
     }
-    [[self tableView] setFrame:originalTableViewRect];
+    
+    CGRect valueFieldRect = CGRectMake([[self bannerView] frame].origin.x + 75.f, 12.f, tableViewWidth - 120.f, 24.f);
+    [[self valueField] setFrame:valueFieldRect];
+    
+    // Place the banner view correctly
+    if (IOS7_OR_MORE) {
+        CGRect bannerRect = [[self bannerView] frame];
+        bannerRect.origin.y = ios7NavBarHeight;
+        [[self bannerView] setFrame:bannerRect];
+    }
+    
+    CGRect tableViewRect = [[self tableView] frame];
+    if (IOS7_OR_MORE) {
+        tableViewRect.size.height = tableViewHeight + ios7NavBarHeight +4.f ;
+    }else{
+        tableViewRect.size.height = tableViewHeight;
+    }
+    tableViewRect.size.width = tableViewWidth;
+    [[self tableView] setFrame:tableViewRect];
+    [[self tableView] setHidden:NO];
 }
 
 
@@ -253,8 +285,18 @@ static const CGFloat NavigationBarHeight = 44.f;
 }
 
 
+- (CGFloat)screenWidth {
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        return result.width;
+    }
+    return 0;
+}
 
 - (void)showBannerViewShadow:(BOOL)show {
+    if (IOS7_OR_MORE) {
+        return;
+    }
     [self bannerView ].layer.masksToBounds = show ? NO : YES;
     [self bannerView ].layer.shadowOffset = CGSizeMake(0, 3);
     [self bannerView ].layer.shadowColor=[[UIColor colorWithWhite:0.546 alpha:0.870] CGColor];
@@ -296,7 +338,7 @@ static const CGFloat NavigationBarHeight = 44.f;
     // Cell size default is 44.0.
     // This will return a size of 34.0
     // The custom cell needs to know the - 10.0 difference
-    return 44.0 + IMOCellSizeMagnitude;
+    return 34.0;
 }
 
 
@@ -306,7 +348,6 @@ static const CGFloat NavigationBarHeight = 44.f;
 }
 
 
-//???: Always show the banner shadow ?
 - (int)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int rows = [[[self completionController] completions] count];
     if (rows == 0) {
@@ -327,14 +368,15 @@ static const CGFloat NavigationBarHeight = 44.f;
     if (nil == cell) {
         if ([self cellColorsArray]) { // call with custom colors
             cell = [[IMOCompletionCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                             reuseIdentifier:completionCell
-                                                  cellColors:[self cellColorsArray]];
+                                            reuseIdentifier:completionCell
+                                                 cellColors:[self cellColorsArray]];
         }else { // call with default colors
             cell = [[IMOCompletionCell alloc]initWithStyle:UITableViewCellStyleValue1
-                                            reuseIdentifier:completionCell];
+                                           reuseIdentifier:completionCell];
         }
     }
     NSString *thisCompletion = [[[self completionController] completions][[indexPath row]] lowercaseString];
+    [cell setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [[cell cellField] setText:thisCompletion];
     return cell;
 }
