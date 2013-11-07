@@ -23,25 +23,21 @@ static const CGFloat kNavigationBarHeightLandscape =        32.f;
 static const CGFloat kStatusBarHeight =                     20.f;
 
 @interface IMOAutocompletionViewController ()
-
-@property (strong, nonatomic) IBOutlet UIView *bannerView;
-@property (strong, nonatomic) IBOutlet UITextField *valueField;
-@property (strong, nonatomic) IBOutlet UILabel *label;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet UILabel *completionCountField;
-@property (strong, nonatomic) IBOutlet UILabel *totalCompletionField;
+@property (strong, nonatomic) UIView *bannerView;
+@property (strong, nonatomic) UITextField *valueField;
+@property (strong, nonatomic) UILabel *label;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UILabel *completionCountField;
+@property (strong, nonatomic) UILabel *totalCompletionField;
 @property (nonatomic, strong) NSArray *cellColorsArray;
 @property (strong, nonatomic) IMOCompletionController *completionController;
 @property (nonatomic, strong) NSString *textFieldString;
 @property (nonatomic, strong) NSString *labelString;
 @property (nonatomic, strong) NSString *backgroundImageName;
-
 @end
 
 
-
 @implementation IMOAutocompletionViewController
-
 
 - (id)init {
     return  self = [self initWithNibName:nil bundle:nil];
@@ -74,8 +70,6 @@ static const CGFloat kStatusBarHeight =                     20.f;
       backgroundImageName:(NSString *) bgImageName
                cellColors:(NSDictionary *)cellColors{
     
-    
-    
     if (self = [super initWithNibName:nil bundle:nil]) {
         _textFieldString        = tfstring;
         _labelString            = lstring;
@@ -91,31 +85,21 @@ static const CGFloat kStatusBarHeight =                     20.f;
             _cellColorsArray = nil;
         }
         
-        CGFloat viewWidth;
-        
-        UIInterfaceOrientation orientation = [self interfaceOrientation];
-        if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
-            viewWidth = [[self view] frame].size.width;
-        }else{
-            viewWidth = [[self view] frame].size.height;
-        }
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0,
                                                                   kNavigationBarHeightPortrait,
-                                                                  viewWidth,
+                                                                  [self viewWidth],
                                                                   [self screenHeight])
                                                  style:UITableViewStylePlain];
         [[self view] addSubview:_tableView];
         
-        if (IOS7_OR_MORE) {
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait + 4.f)];
-        }else{
-            _bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, viewWidth, kNavigationBarHeightPortrait)];
-        }
+        _bannerView = [[UIView alloc] initWithFrame:[self bannerViewAdjustedFrame]];
+        
+        
         [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_bannerView setBackgroundColor:[UIColor whiteColor]];
         [[self view] addSubview:_bannerView];
-
-        _valueField = [[UITextField alloc] initWithFrame:CGRectMake([_bannerView frame].origin.x + 75.f, 12.f, viewWidth - 120.f, 24.f)];
+        
+        _valueField = [[UITextField alloc] initWithFrame:CGRectMake([_bannerView frame].origin.x + 75.f, 12.f, [self viewWidth] - 120.f, 24.f)];
         [_valueField setClearButtonMode:UITextFieldViewModeWhileEditing];
         [[self bannerView] addSubview:_valueField];
         
@@ -125,30 +109,31 @@ static const CGFloat kStatusBarHeight =                     20.f;
         [_label setTextColor:[UIColor grayColor]];
         [[self bannerView] addSubview:_label];
         
-        _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 12.f, 35.f, 11.f)];
+        _completionCountField = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth] - 40.f, 12.f, 35.f, 11.f)];
         [_completionCountField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_completionCountField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_completionCountField setTextAlignment:NSTextAlignmentRight];
         [_completionCountField setTextColor:[UIColor colorWithRed:0.168 green:0.315 blue:0.074 alpha:1.000]];
         [[self bannerView] addSubview:_completionCountField];
         
-        _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake(280.f, 26.f, 35.f, 11.f)];
+        _totalCompletionField = [[UILabel alloc] initWithFrame:CGRectMake([self viewWidth] - 40.f, 26.f, 35.f, 11.f)];
         [_totalCompletionField setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
         [_totalCompletionField setFont:[UIFont boldSystemFontOfSize:10.f]];
         [_totalCompletionField setTextAlignment:NSTextAlignmentRight];
         [_totalCompletionField setTextColor:[UIColor colorWithRed:0.471 green:0.000 blue:0.005 alpha:1.000]];
         [[self bannerView] addSubview:_totalCompletionField];
-        
-        [[self tableView] setHidden:YES];
     }
     return self;
 }
 
 
 
+
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([self completionController]) {
+        [self setCompletionController:nil];
     }
     [self setView:nil];
 }
@@ -225,11 +210,11 @@ static const CGFloat kStatusBarHeight =                     20.f;
 
 
 - (void)resizeUI:(NSNotification *)notification {
-    
+
     NSDictionary* keyboardInfo = [notification userInfo];
     
     CGFloat ios7NavBarHeight;
-
+    
     NSValue* keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
     CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
     
@@ -255,11 +240,7 @@ static const CGFloat kStatusBarHeight =                     20.f;
     [[self valueField] setFrame:valueFieldRect];
     
     // Place the banner view correctly
-    if (IOS7_OR_MORE) {
-        CGRect bannerRect = [[self bannerView] frame];
-        bannerRect.origin.y = ios7NavBarHeight;
-        [[self bannerView] setFrame:bannerRect];
-    }
+    [[self bannerView] setFrame:[self bannerViewAdjustedFrame]];
     
     CGRect tableViewRect = [[self tableView] frame];
     if (IOS7_OR_MORE) {
@@ -269,11 +250,43 @@ static const CGFloat kStatusBarHeight =                     20.f;
     }
     tableViewRect.size.width = tableViewWidth;
     [[self tableView] setFrame:tableViewRect];
-    [[self tableView] setHidden:NO];
 }
 
 
+
+- (CGRect) bannerViewAdjustedFrame {
+    CGFloat ios7NavBarHeight, width;
+    CGRect bannerRect = CGRectMake(0, 0, [self viewWidth], kNavigationBarHeightPortrait + 4.f);
+    
+    UIInterfaceOrientation orientation = [self interfaceOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        ios7NavBarHeight = kNavigationBarHeightPortrait + kStatusBarHeight;
+        width = [self screenWidth];
+    }else {
+        ios7NavBarHeight = kNavigationBarHeightLandscape +kStatusBarHeight;
+        width = [self screenHeight];
+    }
+    if (IOS7_OR_MORE) {
+        bannerRect.origin.y = ios7NavBarHeight;
+        bannerRect.size.width = width;
+        [[self bannerView] setFrame:bannerRect];
+    }
+    return bannerRect;
+}
+
+
+
 #pragma mark -stuff
+
+- (CGFloat)viewWidth {
+    UIInterfaceOrientation orientation = [self interfaceOrientation];
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        return [[self view] frame].size.width;
+    }else{
+        return [[self view] frame].size.height;
+    }
+    
+}
 
 
 -(CGFloat)screenHeight {
