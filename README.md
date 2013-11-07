@@ -4,15 +4,15 @@
 
 
  
-Suggestions appear in a UITableView underneath the UITextField  
+###<center>For iOS6 and iOS7 </center>
 
 
 
 <center>
 ![screenshot]  
-(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
-![screenshot]  
 (https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAutocompletionDEMO7.png?raw=true)
+![screenshot]  
+(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
 </center>
 
 
