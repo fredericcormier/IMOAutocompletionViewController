@@ -11,6 +11,8 @@ Suggestions appear in a UITableView underneath the UITextField
 <center>
 ![screenshot]  
 (https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
+![screenshot]  
+(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAutocompletionDEMO7.png?raw=true)
 </center>
 
 
