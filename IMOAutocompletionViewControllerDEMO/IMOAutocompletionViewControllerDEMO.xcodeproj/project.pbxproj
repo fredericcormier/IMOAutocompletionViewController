@@ -30,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		56DA738D194F09F60070A223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A117A961575053800F3D9C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A117A9E1575053900F3D9C6;
+			remoteInfo = IMOAutocompletionViewControllerDEMO;
+		};
 		6A7D31E7179E94360053DE1C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A117A961575053800F3D9C6 /* Project object */;
@@ -236,6 +243,7 @@
 			);
 			dependencies = (
 				6A7D31E8179E94360053DE1C /* PBXTargetDependency */,
+				56DA738E194F09F60070A223 /* PBXTargetDependency */,
 			);
 			name = IMOAutocompletionViewControllerTests;
 			productName = IMOAutocompletionViewControllerTests;
@@ -248,7 +256,7 @@
 		6A117A961575053800F3D9C6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "International MicrOondes";
 				TargetAttributes = {
 					6A7D31D8179E94360053DE1C = {
@@ -323,6 +331,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		56DA738E194F09F60070A223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A117A9E1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO */;
+			targetProxy = 56DA738D194F09F60070A223 /* PBXContainerItemProxy */;
+		};
 		6A7D31E8179E94360053DE1C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6A117A9E1575053900F3D9C6 /* IMOAutocompletionViewControllerDEMO */;
@@ -367,9 +380,11 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -379,6 +394,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -399,11 +415,14 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -527,6 +546,7 @@
 				6A7D31EA179E94360053DE1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

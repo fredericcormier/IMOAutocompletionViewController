@@ -4,7 +4,7 @@
 
 
  
-###<center>For iOS6 and iOS7 </center>
+###<center>For iOS6 and later </center>
 
 
 
@@ -41,8 +41,6 @@
     
  	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:acvc];
     [[self navigationController] presentModalViewController:navController animated:YES];
-    [acvc release];
-    [navController release];
 ```
 Initializer arguments:
 * labelString is the textfield caption label
