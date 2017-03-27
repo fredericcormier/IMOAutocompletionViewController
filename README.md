@@ -1,25 +1,23 @@
-#<center>IMOAutocompletionViewController</center>
+# <center>IMOAutocompletionViewController</center>
 
 
 
 
  
-###<center>For iOS6 and later </center>
+### <center>For iOS6 and later </center>
 
 
 
-<center>
-![screenshot]  
-(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAutocompletionDEMO7.png?raw=true)
-![screenshot]  
-(https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
-</center>
+
+![screenshot](https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAutocompletionDEMO7.png?raw=true)
+![screenshot](https://github.com/fredericcormier/IMOAutocompletionViewController/blob/master/media/IMOAucompletionDEMO.png?raw=true)
 
 
 
-##How to use:
 
-####Your calling controller should implement these 2 protocols  
+## How to use:
+
+#### Your calling controller should implement these 2 protocols  
 ```objective-c
 	@interface MyCallingController : UIViewController <IMOAutocompletionViewDataSouce, IMOAutocompletionViewDelegate>
 	
@@ -27,7 +25,7 @@
 
 	@end
 ```
-####Then call the IMOAutocompletionViewController like this
+#### Then call the IMOAutocompletionViewController like this
 ```objective-c
 	IMOAutocompletionViewController *acvc = [[IMOAutocompletionViewController alloc]
                                              initWithLabelString:@"Label:" 
@@ -59,7 +57,7 @@ Old version's designated initializer calls the new version's one.
 
 
 
-####You then need need to implement those 2 methods
+#### You then need need to implement those 2 methods
 
  1 - provide a list of possible completions
 ```objective-c
@@ -77,7 +75,7 @@ Old version's designated initializer calls the new version's one.
     }
 ```
 
-###If you want to provide your own cell colors, just pass a dictionary like this to the cellColors argument
+### If you want to provide your own cell colors, just pass a dictionary like this to the cellColors argument
 ```objective-c 
 	 NSDictionary *cellColors = @{
                 IMOCompletionCellTopSeparatorColor: [UIColor whiteColor],
@@ -86,7 +84,7 @@ Old version's designated initializer calls the new version's one.
     
 
 ```
-#LICENSE 
+# LICENSE 
 ----
 Copyright (C) 2013 Frederic Cormier
 
@@ -94,4 +92,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.-
